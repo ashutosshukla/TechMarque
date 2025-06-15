@@ -19,7 +19,7 @@ const Navigation = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4">
                     <div className="text-2xl font-bold text-white">
-                        TechFlow<span className="text-blue-400">Solutions</span>
+                        Tech<span className="text-blue-400">Marque</span>
                     </div>
 
                     <div className="hidden md:flex space-x-8">

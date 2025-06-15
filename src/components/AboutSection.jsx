@@ -8,18 +8,22 @@ const AboutSection = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
                         <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                            About <span className="text-blue-400">TechFlow Solutions</span>
+                            About <span className="text-blue-400">Tech Marque</span>
                         </h2>
                         <p className="text-xl text-gray-300 mb-6 leading-relaxed">
-                            We are a forward-thinking IT consulting firm dedicated to empowering businesses through innovative technology solutions. Our team of experienced professionals combines technical expertise with strategic insight to deliver exceptional results.
+                           At TechMarque, we don’t just build websites or write code — we build digital experiences that move businesses forward.
+
+
+Whether you're a local shop stepping online for the first time, or a startup scaling for growth, TechMarque delivers tailored IT solutions that are smart, scalable, and beautifully simple
                         </p>
                         <p className="text-gray-300 mb-8 leading-relaxed">
-                            Founded on the principles of excellence, innovation, and client satisfaction, we've helped numerous organizations navigate their digital transformation journey and achieve sustainable growth in an increasingly competitive landscape.
-                        </p>
+From intuitive websites to custom software,
+From digital marketing to business automation —
+we bring your vision to life with technology that works for you.                        </p>
 
                         <div className="grid grid-cols-2 gap-6 mb-8">
                             {[
-                                { label: "Client Satisfaction", value: "98%" },
+                                { label: "Client Satisfaction", value: "100%" },
                                 { label: "On-Time Delivery", value: "95%" },
                                 { label: "Expert Team", value: "20+" },
                                 { label: "Technologies", value: "50+" }

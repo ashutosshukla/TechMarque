@@ -109,7 +109,7 @@ const ContactSection = () => {
                                     </div>
                                     <div>
                                         <div className="font-semibold text-slate-900">Phone</div>
-                                        <div className="text-gray-600">+1 (555) 123-4567</div>
+                                        <div className="text-gray-600">+91 6377553223</div>
                                     </div>
                                 </div>
 
@@ -119,7 +119,7 @@ const ContactSection = () => {
                                     </div>
                                     <div>
                                         <div className="font-semibold text-slate-900">Email</div>
-                                        <div className="text-gray-600">info@techflowsolutions.com</div>
+                                        <div className="text-gray-600">Techmarquejaipur.com</div>
                                     </div>
                                 </div>
 
@@ -129,7 +129,7 @@ const ContactSection = () => {
                                     </div>
                                     <div>
                                         <div className="font-semibold text-slate-900">Address</div>
-                                        <div className="text-gray-600">123 Tech Street, Silicon Valley, CA 94000</div>
+                                        <div className="text-gray-600">303,Ambay enclave,Jagatpura, Jaipur</div>
                                     </div>
                                 </div>
                             </div>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ExternalLink, Github, ArrowRight } from 'lucide-react';
 
 const ProjectsCarousel = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-    const [showProjectsPage, setShowProjectsPage] = useState(false);
+    const navigate = useNavigate();
 
     const projects = [
         {
@@ -65,13 +66,13 @@ const ProjectsCarousel = () => {
     ];
 
     useEffect(() => {
-        if (isAutoPlaying && !showProjectsPage) {
+        if (isAutoPlaying) {
             const interval = setInterval(() => {
                 setCurrentSlide((prev) => (prev + 1) % projects.length);
             }, 5000);
             return () => clearInterval(interval);
         }
-    }, [isAutoPlaying, projects.length, showProjectsPage]);
+    }, [isAutoPlaying, projects.length]);
 
     const nextSlide = () => {
         setCurrentSlide((prev) => (prev + 1) % projects.length);
@@ -86,34 +87,26 @@ const ProjectsCarousel = () => {
     };
 
     const handleViewProject = () => {
-        setShowProjectsPage(true);
+        navigate('/projects');
     };
 
     const handleViewAllProjects = () => {
-        setShowProjectsPage(true);
+        navigate('/projects');
     };
-
-    const handleBackToCarousel = () => {
-        setShowProjectsPage(false);
-    };
-
-    if (showProjectsPage) {
-        return <ProjectsPage onBack={handleBackToCarousel} />;
-    }
 
     return (
-        <section className="py-20 bg-slate-900 overflow-hidden">
+        <section className="py-20 bg-white overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                        Featured <span className="text-blue-400">Projects</span>
+                    <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+                        Featured <span className="text-blue-600">Projects</span>
                     </h2>
-                    <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+                    <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
                         Explore our portfolio of successful projects that showcase our expertise in delivering cutting-edge solutions across various industries.
                     </p>
                     <button
                         onClick={handleViewAllProjects}
-                        className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-semibold transition-colors"
+                        className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold transition-colors"
                     >
                         View All Projects
                         <ArrowRight size={20} />
@@ -126,7 +119,7 @@ const ProjectsCarousel = () => {
                     onMouseLeave={() => setIsAutoPlaying(true)}
                 >
                     {/* Main Carousel */}
-                    <div className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden">
+                    <div className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
                         <div
                             className="flex transition-transform duration-500 ease-in-out h-full"
                             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -173,10 +166,6 @@ const ProjectsCarousel = () => {
                                                         <ExternalLink size={16} />
                                                         View Project
                                                     </button>
-                                                    <button className="flex items-center gap-2 border border-white/30 text-white hover:bg-white/10 px-6 py-3 rounded-full font-semibold transition-colors">
-                                                        <Github size={16} />
-                                                        Source Code
-                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -207,8 +196,8 @@ const ProjectsCarousel = () => {
                                 key={index}
                                 onClick={() => goToSlide(index)}
                                 className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide
-                                    ? 'bg-blue-400 w-8'
-                                    : 'bg-white/30 hover:bg-white/50'
+                                    ? 'bg-blue-600 w-8'
+                                    : 'bg-slate-300 hover:bg-slate-400'
                                     }`}
                             />
                         ))}
@@ -223,9 +212,9 @@ const ProjectsCarousel = () => {
                         { number: '98%', label: 'Client Satisfaction' },
                         { number: '50+', label: 'Technologies Used' }
                     ].map((stat, index) => (
-                        <div key={index} className="text-center p-6 bg-slate-800 rounded-xl">
-                            <div className="text-3xl font-bold text-blue-400 mb-2">{stat.number}</div>
-                            <div className="text-gray-300">{stat.label}</div>
+                        <div key={index} className="text-center p-6 bg-slate-50 rounded-xl border border-slate-200">
+                            <div className="text-3xl font-bold text-blue-600 mb-2">{stat.number}</div>
+                            <div className="text-slate-600">{stat.label}</div>
                         </div>
                     ))}
                 </div>

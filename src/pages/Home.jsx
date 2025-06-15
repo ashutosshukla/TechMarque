@@ -1,15 +1,15 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection';
-import ServicesSection from '../components/ServiceSection';
 import AboutSection from '../components/AboutSection';
 import ContactSection from '../components/ContactSection';
 import ProjectsCarousel from '../components/ProjectsCarousel ';
+import Services from './Services';
 
 const Home = () => {
     return (
         <div>
             <HeroSection />
-            <ServicesSection />
+            <Services />
             <AboutSection />
             <ProjectsCarousel />
             <ContactSection />

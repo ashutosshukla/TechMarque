@@ -6,6 +6,7 @@ const About = () => {
         <div className="pt-20">
             <AboutSection />
             {/* Add more about-specific content here */}
+            <h1>nitin check</h1>
         </div>
     );
 };

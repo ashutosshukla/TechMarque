@@ -12,7 +12,8 @@ import {
     Settings,    // that might be referenced in your data
     Lock,
     Cpu,
-    Link
+    Link,
+    ShoppingCart,
 } from 'lucide-react';
 
 const Services = () => {
@@ -32,7 +33,8 @@ const Services = () => {
         Settings: Settings,
         Lock: Lock,
         Cpu: Cpu,
-        Link: Link
+        Link: Link,
+        ShoppingCart:ShoppingCart
     };
 
     return (

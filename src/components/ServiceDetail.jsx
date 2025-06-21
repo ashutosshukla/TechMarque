@@ -4,7 +4,7 @@ import { services } from '../data/services';
 import {
     Code, Cloud, Shield, Users,
     Settings, Lock, Cpu, Link, Globe,
-    CheckCircle, ArrowRight, Phone, ChevronLeft
+    CheckCircle, ArrowRight, Phone, ChevronLeft,ShoppingCart
 } from 'lucide-react';
 
 const ServiceDetail = () => {
@@ -33,7 +33,7 @@ const ServiceDetail = () => {
     // Map icon names to components
     const iconComponents = {
         Code, Cloud, Shield, Users,
-        Settings, Lock, Cpu, Link, Globe
+        Settings, Lock, Cpu, Link, Globe,ShoppingCart
     };
     const IconComponent = iconComponents[service.icon];
 

@@ -19,7 +19,7 @@ const Services = () => {
     const navigate = useNavigate();
 
     const handleLearnMore = (slug) => {
-        navigate(`/services/${slug}`);
+        navigate(`/services/detail/${slug}`);
     };
 
     // Map all possible icon names to their components

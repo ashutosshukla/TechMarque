@@ -12,14 +12,40 @@ const BlogCard = ({ blog }) => {
         });
     };
 
+    // Get the correct image URL - handle both Cloudinary URLs and fallback
+    const getImageUrl = () => {
+        if (blog.featuredImage) {
+            // If it's an object with url property (Cloudinary)
+            if (typeof blog.featuredImage === 'object' && blog.featuredImage.url) {
+                return blog.featuredImage.url;
+            }
+            // If it's a direct string URL
+            if (typeof blog.featuredImage === 'string') {
+                // If it's already a full URL (starts with http), use it directly
+                if (blog.featuredImage.startsWith('http')) {
+                    return blog.featuredImage;
+                }
+                // Otherwise, construct local URL
+                return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${blog.featuredImage}`;
+            }
+        }
+        return null;
+    };
+
+    const imageUrl = getImageUrl();
+
     return (
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            {blog.featuredImage && (
-                <div className="relative h-48 overflow-hidden"> 
+            {imageUrl && (
+                <div className="relative h-48 overflow-hidden">
                     <img
-                        src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${blog.featuredImage}`}
+                        src={imageUrl}
                         alt={blog.title}
                         className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                        onError={(e) => {
+                            // Hide image if it fails to load
+                            e.target.style.display = 'none';
+                        }}
                     />
                     <div className="absolute top-4 left-4">
                         <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
@@ -28,7 +54,7 @@ const BlogCard = ({ blog }) => {
                     </div>
                 </div>
             )}
-            
+                     
             <div className="p-6">
                 <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
                     <div className="flex items-center gap-1">

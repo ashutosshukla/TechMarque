@@ -1,6 +1,5 @@
-// components/Dashboard/AdminDashboard.jsx
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Eye, FileText, Users, TrendingUp, Save, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, FileText, Users, TrendingUp, Save, X, Upload, Image as ImageIcon, AlertCircle } from 'lucide-react';
 
 const AdminDashboard = () => {
     const [stats, setStats] = useState({});
@@ -10,6 +9,8 @@ const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState('overview');
     const [showModal, setShowModal] = useState(false);
     const [editingBlog, setEditingBlog] = useState(null);
+    const [uploading, setUploading] = useState(false);
+    const [imagePreview, setImagePreview] = useState(null);
     const [formData, setFormData] = useState({
         title: '',
         excerpt: '',
@@ -18,8 +19,12 @@ const AdminDashboard = () => {
         tags: '',
         status: 'draft',
         author: 'Admin',
-        featuredImage: null
+        featuredImage: null,
+        metaTitle: '',
+        metaDescription: '',
+        keywords: ''
     });
+    const [errors, setErrors] = useState({});
 
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
     const token = localStorage.getItem('adminToken');
@@ -79,7 +84,7 @@ const AdminDashboard = () => {
     };
 
     const deleteBlog = async (id) => {
-        if (window.confirm('Are you sure you want to delete this blog?')) {
+        if (window.confirm('Are you sure you want to delete this blog? This will also delete the associated image from Cloudinary.')) {
             try {
                 const response = await fetch(`${API_URL}/api/admin/blogs/${id}`, {
                     method: 'DELETE',
@@ -90,15 +95,20 @@ const AdminDashboard = () => {
                 if (response.ok) {
                     fetchBlogs();
                     fetchStats();
+                } else {
+                    const error = await response.json();
+                    alert(error.error || 'Failed to delete blog');
                 }
             } catch (error) {
                 console.error('Error deleting blog:', error);
+                alert('Failed to delete blog');
             }
         }
     };
 
     const handleCreateNew = () => {
         setEditingBlog(null);
+        setImagePreview(null);
         setFormData({
             title: '',
             excerpt: '',
@@ -107,13 +117,18 @@ const AdminDashboard = () => {
             tags: '',
             status: 'draft',
             author: 'Admin',
-            featuredImage: null
+            featuredImage: null,
+            metaTitle: '',
+            metaDescription: '',
+            keywords: ''
         });
+        setErrors({});
         setShowModal(true);
     };
 
     const handleEdit = (blog) => {
         setEditingBlog(blog);
+        setImagePreview(blog.featuredImage?.url || null);
         setFormData({
             title: blog.title,
             excerpt: blog.excerpt,
@@ -122,28 +137,91 @@ const AdminDashboard = () => {
             tags: blog.tags ? blog.tags.join(', ') : '',
             status: blog.status,
             author: blog.author,
-            featuredImage: null
+            featuredImage: null,
+            metaTitle: blog.seo?.metaTitle || '',
+            metaDescription: blog.seo?.metaDescription || '',
+            keywords: blog.seo?.keywords ? blog.seo.keywords.join(', ') : ''
         });
+        setErrors({});
         setShowModal(true);
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate file size (10MB limit)
+            if (file.size > 10 * 1024 * 1024) {
+                setErrors(prev => ({...prev, featuredImage: 'File size must be less than 10MB'}));
+                return;
+            }
+
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                setErrors(prev => ({...prev, featuredImage: 'Only JPEG, PNG, GIF, and WebP files are allowed'}));
+                return;
+            }
+
+            setErrors(prev => ({...prev, featuredImage: ''}));
+            setFormData(prev => ({ ...prev, featuredImage: file }));
+            
+            // Create preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setImagePreview(e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const removeImage = () => {
+        setFormData(prev => ({ ...prev, featuredImage: null }));
+        setImagePreview(editingBlog?.featuredImage?.url || null);
+        const fileInput = document.querySelector('input[name="featuredImage"]');
+        if (fileInput) fileInput.value = '';
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+        
+        if (!formData.title.trim()) newErrors.title = 'Title is required';
+        if (!formData.excerpt.trim()) newErrors.excerpt = 'Excerpt is required';
+        if (!formData.content.trim()) newErrors.content = 'Content is required';
+        if (!formData.category) newErrors.category = 'Category is required';
+        
+        if (formData.title.length > 100) newErrors.title = 'Title must be less than 100 characters';
+        if (formData.excerpt.length > 300) newErrors.excerpt = 'Excerpt must be less than 300 characters';
+        
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const submitData = new FormData();
-        submitData.append('title', formData.title);
-        submitData.append('excerpt', formData.excerpt);
-        submitData.append('content', formData.content);
-        submitData.append('category', formData.category);
-        submitData.append('tags', formData.tags);
-        submitData.append('status', formData.status);
-        submitData.append('author', formData.author);
-        
-        if (formData.featuredImage) {
-            submitData.append('featuredImage', formData.featuredImage);
+        if (!validateForm()) {
+            return;
         }
 
+        setUploading(true);
+        
         try {
+            const submitData = new FormData();
+            submitData.append('title', formData.title.trim());
+            submitData.append('excerpt', formData.excerpt.trim());
+            submitData.append('content', formData.content.trim());
+            submitData.append('category', formData.category);
+            submitData.append('tags', formData.tags);
+            submitData.append('status', formData.status);
+            submitData.append('author', formData.author);
+            submitData.append('metaTitle', formData.metaTitle);
+            submitData.append('metaDescription', formData.metaDescription);
+            submitData.append('keywords', formData.keywords);
+            
+            if (formData.featuredImage) {
+                submitData.append('featuredImage', formData.featuredImage);
+            }
+
             const url = editingBlog 
                 ? `${API_URL}/api/admin/blogs/${editingBlog._id}`
                 : `${API_URL}/api/admin/blogs`;
@@ -162,27 +240,36 @@ const AdminDashboard = () => {
                 setShowModal(false);
                 fetchBlogs();
                 fetchStats();
+                setImagePreview(null);
+                alert(editingBlog ? 'Blog updated successfully!' : 'Blog created successfully!');
             } else {
                 const error = await response.json();
-                alert(error.message || 'Failed to save blog');
+                alert(error.error || 'Failed to save blog');
             }
         } catch (error) {
             console.error('Error saving blog:', error);
-            alert('Failed to save blog');
+            alert('Failed to save blog. Please try again.');
+        } finally {
+            setUploading(false);
         }
     };
 
     const handleInputChange = (e) => {
-        const { name, value, files } = e.target;
-        if (name === 'featuredImage') {
-            setFormData(prev => ({ ...prev, [name]: files[0] }));
-        } else {
-            setFormData(prev => ({ ...prev, [name]: value }));
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+        
+        // Clear error when user starts typing
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: '' }));
         }
     };
 
     const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleDateString();
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
     };
 
     if (!token) {
@@ -200,8 +287,8 @@ const AdminDashboard = () => {
         <div className="min-h-screen bg-gray-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900">Blog Dashboard</h1>
-                    <p className="text-gray-600">Manage your blog content</p>
+                    <h1 className="text-3xl font-bold text-gray-900">TechMarque Blog Dashboard</h1>
+                    <p className="text-gray-600">Manage your blog content with Cloudinary integration</p>
                 </div>
 
                 {/* Navigation Tabs */}
@@ -351,6 +438,7 @@ const AdminDashboard = () => {
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
                                         <tr>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Image</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
@@ -362,6 +450,19 @@ const AdminDashboard = () => {
                                     <tbody className="bg-white divide-y divide-gray-200">
                                         {blogs.map((blog) => (
                                             <tr key={blog._id}>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    {blog.featuredImage?.url ? (
+                                                        <img 
+                                                            src={blog.featuredImage.url} 
+                                                            alt={blog.title}
+                                                            className="h-12 w-12 rounded-lg object-cover"
+                                                        />
+                                                    ) : (
+                                                        <div className="h-12 w-12 bg-gray-200 rounded-lg flex items-center justify-center">
+                                                            <ImageIcon size={20} className="text-gray-400" />
+                                                        </div>
+                                                    )}
+                                                </td>
                                                 <td className="px-6 py-4">
                                                     <div className="text-sm font-medium text-gray-900 max-w-xs truncate">
                                                         {blog.title}
@@ -417,7 +518,7 @@ const AdminDashboard = () => {
                 {/* Modal for Create/Edit Blog */}
                 {showModal && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="bg-white rounded-lg shadow-xl max-w-5xl w-full max-h-[95vh] overflow-y-auto">
                             <div className="p-6 border-b border-gray-200">
                                 <div className="flex justify-between items-center">
                                     <h2 className="text-2xl font-bold">
@@ -426,6 +527,7 @@ const AdminDashboard = () => {
                                     <button
                                         onClick={() => setShowModal(false)}
                                         className="text-gray-400 hover:text-gray-600"
+                                        disabled={uploading}
                                     >
                                         <X size={24} />
                                     </button>
@@ -433,10 +535,11 @@ const AdminDashboard = () => {
                             </div>
 
                             <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                                {/* Basic Information */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Title *
+                                            Title * <span className="text-xs text-gray-500">({formData.title.length}/100)</span>
                                         </label>
                                         <input
                                             type="text"
@@ -444,8 +547,12 @@ const AdminDashboard = () => {
                                             value={formData.title}
                                             onChange={handleInputChange}
                                             required
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            maxLength={100}
+                                            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                                errors.title ? 'border-red-500' : 'border-gray-300'
+                                            }`}
                                         />
+                                        {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title}</p>}
                                     </div>
 
                                     <div>
@@ -457,7 +564,9 @@ const AdminDashboard = () => {
                                             value={formData.category}
                                             onChange={handleInputChange}
                                             required
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                                errors.category ? 'border-red-500' : 'border-gray-300'
+                                            }`}
                                         >
                                             <option value="">Select Category</option>
                                             {categories.map((category) => (
@@ -466,21 +575,80 @@ const AdminDashboard = () => {
                                                 </option>
                                             ))}
                                         </select>
+                                        {errors.category && <p className="text-red-500 text-xs mt-1">{errors.category}</p>}
                                     </div>
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        Excerpt *
+                                        Excerpt * <span className="text-xs text-gray-500">({formData.excerpt.length}/300)</span>
                                     </label>
                                     <textarea
                                         name="excerpt"
                                         value={formData.excerpt}
                                         onChange={handleInputChange}
                                         required
+                                        maxLength={300}
                                         rows={3}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                            errors.excerpt ? 'border-red-500' : 'border-gray-300'
+                                        }`}
+                                        placeholder="Brief description of your blog post..."
                                     />
+                                    {errors.excerpt && <p className="text-red-500 text-xs mt-1">{errors.excerpt}</p>}
+                                </div>
+
+                                {/* Featured Image Upload */}
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Featured Image
+                                        <span className="text-xs text-gray-500 ml-2">
+                                            (Max 10MB - JPEG, PNG, GIF, WebP)
+                                        </span>
+                                    </label>
+                                    
+                                    {imagePreview ? (
+                                        <div className="mb-4">
+                                            <div className="relative inline-block">
+                                                <img 
+                                                    src={imagePreview} 
+                                                    alt="Preview" 
+                                                    className="h-32 w-48 object-cover rounded-lg border"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={removeImage}
+                                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-xs hover:bg-red-600"
+                                                >
+                                                    <X size={14} />
+                                                </button>
+                                            </div>
+                                            <p className="text-xs text-gray-500 mt-2">
+                                                {formData.featuredImage ? 'New image selected' : 'Current image'}
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                                            <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                                            <p className="mt-2 text-sm text-gray-600">No image selected</p>
+                                        </div>
+                                    )}
+                                    
+                                    <input
+                                        type="file"
+                                        name="featuredImage"
+                                        accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                                        onChange={handleFileChange}
+                                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                            errors.featuredImage ? 'border-red-500' : 'border-gray-300'
+                                        }`}
+                                    />
+                                    {errors.featuredImage && (
+                                        <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                                            <AlertCircle size={12} />
+                                            {errors.featuredImage}
+                                        </p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -492,11 +660,16 @@ const AdminDashboard = () => {
                                         value={formData.content}
                                         onChange={handleInputChange}
                                         required
-                                        rows={12}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        rows={15}
+                                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                            errors.content ? 'border-red-500' : 'border-gray-300'
+                                        }`}
+                                        placeholder="Write your blog content here... You can use Markdown formatting."
                                     />
+                                    {errors.content && <p className="text-red-500 text-xs mt-1">{errors.content}</p>}
                                 </div>
 
+                                {/* Metadata */}
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -505,72 +678,157 @@ const AdminDashboard = () => {
                                         <input
                                             type="text"
                                             name="tags"
+
                                             value={formData.tags}
-                                            onChange={handleInputChange}
-                                            placeholder="react, javascript, web"
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        />
-                                    </div>
+                            onChange={handleInputChange}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="e.g. react, javascript, web development"
+                        />
+                    </div>
 
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Author
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="author"
-                                            value={formData.author}
-                                            onChange={handleInputChange}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        />
-                                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Status
+                        </label>
+                        <select
+                            name="status"
+                            value={formData.status}
+                            onChange={handleInputChange}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
+                            <option value="archived">Archived</option>
+                        </select>
+                    </div>
 
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Status
-                                        </label>
-                                        <select
-                                            name="status"
-                                            value={formData.status}
-                                            onChange={handleInputChange}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        >
-                                            <option value="draft">Draft</option>
-                                            <option value="published">Published</option>
-                                        </select>
-                                    </div>
-                                </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Author
+                        </label>
+                        <input
+                            type="text"
+                            name="author"
+                            value={formData.author}
+                            onChange={handleInputChange}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                    </div>
+                </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        Featured Image
-                                    </label>
-                                    <input
-                                        type="file"
-                                        name="featuredImage"
-                                        accept="image/*"
-                                        onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    />
-                                </div>
+                {/* SEO Section */}
+                <div className="border-t pt-6">
+                    <h3 className="text-lg font-medium text-gray-900 mb-4">SEO Settings</h3>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Meta Title
+                            </label>
+                            <input
+                                type="text"
+                                name="metaTitle"
+                                value={formData.metaTitle}
+                                onChange={handleInputChange}
+                                maxLength={60}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="SEO title for search engines"
+                            />
+                            <p className="text-xs text-gray-500 mt-1">
+                                {formData.metaTitle.length}/60 characters
+                            </p>
+                        </div>
 
-                                <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowModal(false)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
-                                    >
-                                        <Save size={20} />
-                                        {editingBlog ? 'Update Blog' : 'Create Blog'}
-                                    </button>
-                                </div>
-                            </form>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Meta Description
+                            </label>
+                            <textarea
+                                name="metaDescription"
+                                value={formData.metaDescription}
+                                onChange={handleInputChange}
+                                maxLength={160}
+                                rows={3}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Brief description for search engines"
+                            />
+                            <p className="text-xs text-gray-500 mt-1">
+                                {formData.metaDescription.length}/160 characters
+                            </p>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Keywords (comma separated)
+                            </label>
+                            <input
+                                type="text"
+                                name="keywords"
+                                value={formData.keywords}
+                                onChange={handleInputChange}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="e.g. react tutorial, web development, javascript"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Form Actions */}
+                <div className="flex justify-end space-x-4 pt-6 border-t">
+                    <button
+                        type="button"
+                        onClick={() => setShowModal(false)}
+                        disabled={uploading}
+                        className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        disabled={uploading}
+                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+                    >
+                        {uploading ? (
+                            <>
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                {editingBlog ? 'Updating...' : 'Creating...'}
+                            </>
+                        ) : (
+                            <>
+                                <Save size={16} />
+                                {editingBlog ? 'Update Blog' : 'Create Blog'}
+                            </>
+                        )}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+                )}
+
+                {/* Loading State */}
+                {loading && (
+                    <div className="flex justify-center items-center py-12">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                        <span className="ml-2 text-gray-600">Loading...</span>
+                    </div>
+                )}
+
+                {/* Empty State */}
+                {!loading && blogs.length === 0 && activeTab === 'blogs' && (
+                    <div className="text-center py-12">
+                        <FileText className="mx-auto h-12 w-12 text-gray-400" />
+                        <h3 className="mt-2 text-sm font-medium text-gray-900">No blogs yet</h3>
+                        <p className="mt-1 text-sm text-gray-500">
+                            Get started by creating your first blog post.
+                        </p>
+                        <div className="mt-6">
+                            <button
+                                onClick={handleCreateNew}
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 mx-auto"
+                            >
+                                <Plus size={20} />
+                                Create New Blog
+                            </button>
                         </div>
                     </div>
                 )}

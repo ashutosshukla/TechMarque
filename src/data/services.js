@@ -10,7 +10,7 @@ export const services = [
         features: ["Web Applications", "Mobile Apps", "API Development", "System Integration"],
         detailedDescription: "Our custom software development services provide end-to-end solutions tailored to your specific business needs. We leverage the latest technologies and best practices to build robust, scalable, and maintainable applications that drive your business forward.",
         technologies: ["React", "Node.js", "Python", "Java", "C#", ".NET", "MongoDB", "PostgreSQL"],
-        pricing: "Starting from $4,000",
+        pricing: "Starting from $5,000",
         timeline: "4-12 weeks",
         benefits: [
             "Fully customized to your business needs",

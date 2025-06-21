@@ -4,7 +4,7 @@ import { services } from '../data/services';
 import {
     Code, Cloud, Shield, Users,
     Settings, Lock, Cpu, Link, Globe,
-    CheckCircle, ArrowRight, Phone, ChevronLeft
+    CheckCircle, ArrowRight, Phone, ChevronLeft,ShoppingCart
 } from 'lucide-react';
 
 const ServiceDetail = () => {
@@ -33,7 +33,7 @@ const ServiceDetail = () => {
     // Map icon names to components
     const iconComponents = {
         Code, Cloud, Shield, Users,
-        Settings, Lock, Cpu, Link, Globe
+        Settings, Lock, Cpu, Link, Globe,ShoppingCart
     };
     const IconComponent = iconComponents[service.icon];
 
@@ -48,7 +48,7 @@ const ServiceDetail = () => {
                             className="flex items-center text-blue-600 hover:text-blue-800"
                         >
                             <ChevronLeft size={20} />
-                            <span className="ml-2">Back to Services</span>
+                            <span className="ml-2">Back </span>
                         </button>
                     </div>
                     <div className="text-center mt-8">

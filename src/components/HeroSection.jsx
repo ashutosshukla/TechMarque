@@ -79,7 +79,7 @@ const HeroSection = () => {
                     {/* Stats */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
                         {[
-                            { number: '500+', label: 'Projects Completed' },
+                            { number: '100+', label: 'Projects Completed' },
                             { number: '50+', label: 'Happy Clients' },
                             { number: '5+', label: 'Years Experience' },
                             { number: '24/7', label: 'Support' }

@@ -48,7 +48,7 @@ const ServiceDetail = () => {
                             className="flex items-center text-blue-600 hover:text-blue-800"
                         >
                             <ChevronLeft size={20} />
-                            <span className="ml-2">Back to Services</span>
+                            <span className="ml-2">Back </span>
                         </button>
                     </div>
                     <div className="text-center mt-8">

@@ -1,209 +1,155 @@
 export const services = [
-    // Development Services
     {
         id: 1,
-        slug: "custom-software-development",
-        category: "development",
-        icon: "Code",
-        title: "Custom Software Development",
-        shortDescription: "Tailored solutions built with cutting-edge technologies to meet your unique business requirements.",
-        features: ["Web Applications", "Mobile Apps", "API Development", "System Integration"],
-        detailedDescription: "Our custom software development services provide end-to-end solutions tailored to your specific business needs. We leverage the latest technologies and best practices to build robust, scalable, and maintainable applications that drive your business forward.",
-        technologies: ["React", "Node.js", "Python", "Java", "C#", ".NET", "MongoDB", "PostgreSQL"],
-        pricing: "Starting from $5,000",
-        timeline: "4-12 weeks",
+        slug: "web-development",
+        category: "Web Development",
+         icon: "Globe",
+        title: "Web Development",
+        shortDescription: "We build modern, responsive, and fast websites tailored to your business.",
+        features: ["Responsive Design", "CMS Integration", "Custom Pages", "SEO-friendly Code"],
+        detailedDescription: "Our web development services focus on creating visually appealing, highly functional websites that engage your audience and drive results. From landing pages to full-scale web apps, we handle it all.",
+        technologies: ["React", "Next.js", "Vue.js", "HTML5", "CSS3"],
+        pricing: "Starting from $2,000",
+        timeline: "2-6 weeks",
         benefits: [
-            "Fully customized to your business needs",
-            "Scalable architecture for future growth",
-            "Modern tech stack and best practices",
-            "Ongoing support and maintenance",
-            "Integration with existing systems"
-        ],
-        process: [
-            "Requirements Analysis & Planning",
-            "UI/UX Design & Prototyping",
-            "Development & Testing",
-            "Deployment & Launch",
-            "Support & Maintenance"
-        ],
-        caseStudies: [
-            {
-                title: "E-commerce Platform",
-                description: "Built a custom e-commerce solution that increased sales by 150%"
-            },
-            {
-                title: "Inventory Management",
-                description: "Developed an inventory system that reduced operational costs by 30%"
-            }
+            "Custom tailored designs",
+            "SEO optimized",
+            "Mobile-friendly",
+            "Fast loading speed",
+            "Ongoing support"
         ]
     },
     {
         id: 2,
-        slug: "web-development",
-        category: "development",
-        icon: "Globe",
-        title: "Web Development",
-        shortDescription: "Modern, responsive websites and web applications that deliver exceptional user experiences.",
-        features: ["Responsive Design", "Single Page Applications", "E-commerce", "CMS Integration"],
-        detailedDescription: "We create high-performance websites and web applications using modern frameworks and technologies. Our solutions are optimized for speed, security, and scalability.",
-        technologies: ["React", "Next.js", "Vue.js", "Angular", "Laravel", "Django"],
+        slug: "ecommerce-website",
+        category: "ecommerce",
+        icon: "Code",
+        title: "Ecommerce Website",
+        shortDescription: "Create powerful online stores to boost your sales and reach.",
+        features: ["Product Management", "Secure Payment Integration", "Cart & Checkout", "Order Tracking"],
+        detailedDescription: "Our ecommerce solutions help you launch feature-rich online stores with secure transactions and excellent user experiences.",
+        technologies: ["Shopify", "WooCommerce", "Magento", "React"],
         pricing: "Starting from $3,000",
         timeline: "3-8 weeks",
         benefits: [
-            "Mobile-first responsive design",
-            "SEO optimized",
-            "Fast loading times",
-            "Secure and scalable",
+            "Custom online store",
+            "Secure payments",
+            "Easy product management",
+            "Optimized for conversion",
             "Ongoing maintenance"
         ]
     },
-
-    // Cloud Services
     {
         id: 3,
-        slug: "cloud-migration",
-        category: "cloud",
-        icon: "Cloud",
-        title: "Cloud Migration",
-        shortDescription: "Seamless transition to cloud infrastructure with minimal downtime and maximum efficiency.",
-        features: ["AWS Migration", "Azure Migration", "Hybrid Cloud", "Cost Optimization"],
-        detailedDescription: "We help organizations migrate their infrastructure and applications to the cloud with minimal disruption. Our migration strategy ensures security, performance, and cost-efficiency.",
-        technologies: ["AWS", "Azure", "Google Cloud", "Terraform", "Kubernetes"],
-        pricing: "Starting from $7,000",
-        timeline: "4-10 weeks",
+        slug: "custom-software-development",
+        category: "software",
+         icon: "Code",
+        title: "Custom Software Development",
+        shortDescription: "Tailored software solutions that solve your unique business challenges.",
+        features: ["API Development", "Web Apps", "Mobile Apps", "System Integration"],
+        detailedDescription: "We build custom software applications to automate processes, enhance productivity, and meet your unique needs.",
+        technologies: ["Node.js", "Python", "Java", ".NET"],
+        pricing: "Starting from $5,000",
+        timeline: "4-12 weeks",
         benefits: [
-            "Reduced infrastructure costs",
-            "Improved scalability",
-            "Enhanced security",
-            "24/7 monitoring",
-            "Disaster recovery"
+            "Built for your business",
+            "Scalable architecture",
+            "Modern tech stack",
+            "Integration with existing systems",
+            "Full support"
         ]
     },
     {
         id: 4,
-        slug: "devops",
-        category: "cloud",
-        icon: "Settings",
-        title: "DevOps Services",
-        shortDescription: "Implement DevOps practices to accelerate delivery and improve software quality.",
-        features: ["CI/CD Pipelines", "Infrastructure as Code", "Monitoring", "Automation"],
-        detailedDescription: "Our DevOps services help you implement continuous integration, continuous delivery, and infrastructure automation to streamline your development process.",
-        technologies: ["Docker", "Kubernetes", "Jenkins", "GitLab CI", "Ansible"],
-        pricing: "Starting from $4,500",
-        timeline: "3-6 weeks",
+        slug: "search-engine-optimization",
+        category: "seo",
+        icon: "Code",
+        title: "Search Engine Optimization",
+        shortDescription: "Boost your website’s visibility and rankings on search engines.",
+        features: ["Keyword Research", "On-Page SEO", "Technical SEO", "Backlink Building"],
+        detailedDescription: "Our SEO services are designed to improve your site’s ranking, drive organic traffic, and grow your business online.",
+        technologies: ["Google Analytics", "Search Console", "SEMrush"],
+        pricing: "Starting from $1,000",
+        timeline: "Ongoing",
         benefits: [
-            "Faster time to market",
-            "Higher quality software",
-            "Reduced manual errors",
-            "Better collaboration",
-            "Cost efficiency"
+            "Higher search rankings",
+            "Increased organic traffic",
+            "Better user experience",
+            "Competitive edge",
+            "Monthly reporting"
         ]
     },
-
-    // Security Services
     {
         id: 5,
-        slug: "security-audits",
-        category: "security",
-        icon: "Shield",
-        title: "Security Audits",
-        shortDescription: "Comprehensive security assessments to identify vulnerabilities and risks.",
-        features: ["Vulnerability Scanning", "Risk Assessment", "Compliance Check", "Remediation Plan"],
-        detailedDescription: "Our security audits provide a thorough examination of your systems to identify vulnerabilities, assess risks, and recommend remediation strategies.",
-        technologies: ["Nessus", "Burp Suite", "OWASP ZAP", "Metasploit"],
-        pricing: "Starting from $2,500",
-        timeline: "2-4 weeks",
+        slug: "social-media-marketing",
+        category: "marketing",
+        icon: "Code",
+        title: "Social Media Marketing",
+        shortDescription: "Engage audiences and grow your brand on social platforms.",
+        features: ["Campaign Management", "Content Creation", "Ad Management", "Analytics"],
+        detailedDescription: "We create and manage effective social media strategies that increase brand awareness, followers, and engagement.",
+        technologies: ["Facebook Ads", "Instagram Ads", "LinkedIn Ads", "Canva"],
+        pricing: "Starting from $800",
+        timeline: "Ongoing",
         benefits: [
-            "Identify security gaps",
-            "Meet compliance requirements",
-            "Protect sensitive data",
-            "Prevent breaches",
-            "Peace of mind"
+            "Increased brand visibility",
+            "Stronger engagement",
+            "Targeted advertising",
+            "Performance reports",
+            "Creative content"
         ]
     },
     {
         id: 6,
-        slug: "penetration-testing",
-        category: "security",
-        icon: "Lock",
-        title: "Penetration Testing",
-        shortDescription: "Simulated cyber attacks to evaluate your system's security.",
-        features: ["Network Testing", "Web App Testing", "Social Engineering", "Reporting"],
-        detailedDescription: "Our ethical hackers simulate real-world attacks to identify exploitable vulnerabilities in your systems before malicious actors can find them.",
-        technologies: ["Kali Linux", "Metasploit", "Nmap", "Wireshark"],
-        pricing: "Starting from $3,500",
-        timeline: "3-5 weeks",
+        slug: "graphic-designing",
+        category: "creative",
+        icon: "Code",
+        title: "Graphic Designing",
+        shortDescription: "Creative designs that make your brand stand out.",
+        features: ["Logo Design", "Social Media Graphics", "Business Cards", "Banners"],
+        detailedDescription: "Our graphic design services help you create memorable visuals that connect with your audience and reflect your brand identity.",
+        technologies: ["Photoshop", "Illustrator", "Figma", "Canva"],
+        pricing: "Starting from $300",
+        timeline: "1-3 weeks",
         benefits: [
-            "Proactive security",
-            "Real-world testing",
-            "Detailed reports",
-            "Remediation guidance",
-            "Compliance support"
-        ]
-    },
-
-    // Additional Services
-    {
-        id: 7,
-        slug: "ai-ml-solutions",
-        category: "innovation",
-        icon: "Cpu",
-        title: "AI/ML Solutions",
-        shortDescription: "Leverage artificial intelligence and machine learning to gain competitive advantage.",
-        features: ["Predictive Analytics", "Computer Vision", "NLP", "Recommendation Systems"],
-        detailedDescription: "We develop custom AI and machine learning solutions that help businesses automate processes, gain insights from data, and improve decision making.",
-        technologies: ["Python", "TensorFlow", "PyTorch", "OpenCV", "NLTK"],
-        pricing: "Starting from $10,000",
-        timeline: "6-16 weeks",
-        benefits: [
-            "Data-driven decisions",
-            "Process automation",
-            "Competitive advantage",
-            "Improved efficiency",
-            "Future-proof solutions"
-        ]
-    },
-    {
-        id: 8,
-        slug: "blockchain-development",
-        category: "innovation",
-        icon: "Link",
-        title: "Blockchain Development",
-        shortDescription: "Secure, decentralized solutions for various business applications.",
-        features: ["Smart Contracts", "DApps", "NFTs", "Tokenization"],
-        detailedDescription: "We build blockchain-based solutions that provide transparency, security, and decentralization for various business applications.",
-        technologies: ["Ethereum", "Solidity", "Hyperledger", "Web3.js"],
-        pricing: "Starting from $8,000",
-        timeline: "8-20 weeks",
-        benefits: [
-            "Enhanced security",
-            "Transparent transactions",
-            "Reduced costs",
-            "New business models",
-            "Future-ready"
+            "Unique brand identity",
+            "Eye-catching visuals",
+            "Professional quality",
+            "Consistent branding",
+            "Unlimited revisions (conditions apply)"
         ]
     }
 ];
 
 export const serviceCategories = [
     {
-        slug: "development",
-        name: "Development",
-        description: "Custom software solutions tailored to your business needs"
+        slug: "web",
+        name: "Web Development",
+        description: "Modern websites built to impress and perform"
     },
     {
-        slug: "cloud",
-        name: "Cloud",
-        description: "Scalable cloud infrastructure and services"
+        slug: "ecommerce",
+        name: "Ecommerce Website",
+        description: "Powerful online stores that drive sales"
     },
     {
-        slug: "security",
-        name: "Security",
-        description: "Comprehensive cybersecurity solutions"
+        slug: "software",
+        name: "Custom Software Development",
+        description: "Tailored software solutions for your business"
     },
     {
-        slug: "innovation",
-        name: "Innovation",
-        description: "Cutting-edge technology solutions"
+        slug: "seo",
+        name: "Search Engine Optimization",
+        description: "SEO strategies to boost visibility"
+    },
+    {
+        slug: "marketing",
+        name: "Social Media Marketing",
+        description: "Grow your brand on social platforms"
+    },
+    {
+        slug: "creative",
+        name: "Graphic Designing",
+        description: "Creative visuals that represent your brand"
     }
 ];

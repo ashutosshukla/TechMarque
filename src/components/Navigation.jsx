@@ -13,8 +13,8 @@ const Navigation = () => {
     // Service categories data
     const serviceCategories = [
         {
-            name: 'Development',
-            path: '/services/development',  // Matches route /services/:category
+            name: 'Web Development',
+            path: '/services/Web Development',  // Matches route /services/:category
             // services: [
             //     {
             //         name: 'Custom Software',
@@ -27,29 +27,46 @@ const Navigation = () => {
             // ]
         },
         {
-            name: 'Cloud',
-            path: '/services/cloud',
+            name: 'Ecommerce Website',
+            path: '/services/ecommerce',
             // services: [
             //     { name: 'Cloud Migration', path: '/services/detail/cloud-migration' },
             //     { name: 'DevOps', path: '/services/detail/devops' }
             // ]
         },
         {
-            name: 'Security',
-            path: '/services/security',
+            name: 'Custom software development',
+            path: '/services/software',
+            // services: [
+            //     { name: 'Cloud Migration', path: '/services/detail/cloud-migration' },
+            //     { name: 'DevOps', path: '/services/detail/devops' }
+            // ]
+        },
+        {
+            name: 'Search Engine optimization',
+            path: '/services/seo',
+            // services: [
+            //     { name: 'Cloud Migration', path: '/services/detail/cloud-migration' },
+            //     { name: 'DevOps', path: '/services/detail/devops' }
+            // ]
+        },
+        {
+            name: 'Social media Marketing',
+            path: '/services/marketing',
             // services: [
             //     { name: 'Security Audits', path: '/services/detail/security-audits' },
             //     { name: 'Penetration Testing', path: '/services/detail/penetration-testing' }
             // ]
         },
         {
-            name: 'Innovation',
-            path: '/services/innovation',
+            name: 'Graphic Desigining',
+            path: '/services/creative',
             // services: [
             //     { name: 'AI/ML Solutions', path: '/services/detail/ai-ml-solutions' },
             //     { name: 'Blockchain', path: '/services/detail/blockchain-development' }
             // ]
-        }
+        },
+       
     ];
 
     useEffect(() => {

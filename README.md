@@ -13,4 +13,3 @@ If you are developing a production application, we recommend using TypeScript wi
 
 Live link:
 https://tech-marque.vercel.app/
- give me live link 

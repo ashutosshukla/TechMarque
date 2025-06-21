@@ -17,7 +17,7 @@ import {
 
 const Services = () => {
     const navigate = useNavigate();
-
+    // new update
     const handleLearnMore = (slug) => {
         navigate(`/services/detail/${slug}`);
     };

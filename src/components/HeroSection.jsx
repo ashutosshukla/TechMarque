@@ -11,7 +11,13 @@ const HeroSection = () => {
     }, []);
 
     return (
-        <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+        <section
+            id="home"
+            className="relative min-h-[calc(100vh-4rem)] sm:min-h-[calc(100vh-5rem)] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 pt-16 sm:pt-0"
+            style={{
+                scrollMarginTop: '4rem', // matches mobile navbar height
+            }}
+        >
             {/* Animated Background Elements */}
             <div className="absolute inset-0">
                 <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -37,26 +43,26 @@ const HeroSection = () => {
                 ))}
             </div>
 
-            <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+            <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto mt-8 sm:mt-0">
                 <div
                     className="transform transition-all duration-1000 ease-out"
                     style={{ transform: `translateY(${scrollY * 0.2}px)` }}
                 >
-                    <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
                         Transforming Ideas Into
-                        <span className="block bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                        <span className="block bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mt-2 sm:mt-4">
                             Digital Solutions
                         </span>
                     </h1>
 
-                    <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
                         We craft cutting-edge IT solutions that drive innovation, streamline operations, and accelerate your business growth in the digital age.
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
                         <button
                             onClick={() => document.getElementById('services').scrollIntoView({ behavior: 'smooth' })}
-                            className="group bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center gap-2"
+                            className="group bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center gap-2"
                         >
                             Explore Our Services
                             <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
@@ -64,14 +70,14 @@ const HeroSection = () => {
 
                         <button
                             onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-                            className="border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105"
+                            className="border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105"
                         >
                             Get In Touch
                         </button>
                     </div>
 
                     {/* Stats */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
                         {[
                             { number: '500+', label: 'Projects Completed' },
                             { number: '50+', label: 'Happy Clients' },
@@ -79,8 +85,8 @@ const HeroSection = () => {
                             { number: '24/7', label: 'Support' }
                         ].map((stat, index) => (
                             <div key={index} className="transform hover:scale-110 transition-transform duration-300">
-                                <div className="text-3xl md:text-4xl font-bold text-blue-400 mb-2">{stat.number}</div>
-                                <div className="text-gray-300 text-sm md:text-base">{stat.label}</div>
+                                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-400 mb-2">{stat.number}</div>
+                                <div className="text-gray-300 text-xs sm:text-sm md:text-base">{stat.label}</div>
                             </div>
                         ))}
                     </div>

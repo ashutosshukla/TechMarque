@@ -13,6 +13,8 @@ import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRou
 import Footer from './components/FooterSection';
 import './styles/globals.css';
 import ServiceSection from './components/ServiceSection';
+import ServiceDetail from './components/ServiceDetail';
+import ServiceCategory from './components/ServiceCategory';
 
 const App = () => {
   return (
@@ -22,18 +24,21 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<ServiceSection />} />
+          <Route path="/services/:category" element={<ServiceCategory />} />
+          <Route path="/services/detail/:slug" element={<ServiceDetail />} />
+          <Route path="/services/:slug" element={<ServiceDetail />} />
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route 
-            path="/admin/dashboard" 
+          <Route
+            path="/admin/dashboard"
             element={
               <ProtectedRoute>
                 <AdminDashboard />
               </ProtectedRoute>
-            } 
+            }
           />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/contact" element={<Contact />} />

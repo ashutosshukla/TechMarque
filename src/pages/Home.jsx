@@ -1,17 +1,18 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection';
-import AboutSection from '../components/AboutSection';
 import ContactSection from '../components/ContactSection';
-import ProjectsCarousel from '../components/ProjectsCarousel ';
 import Services from './Services';
+import AboutHero from '../components/About/AboutHero';
+import StackedProjectsCards from '../components/ProjectsCarousel ';
+import ModernProjectsGrid from '../components/ProjectsCarousel ';
 
 const Home = () => {
     return (
         <div>
             <HeroSection />
             <Services />
-            <AboutSection />
-            <ProjectsCarousel />
+            <AboutHero />
+            <ModernProjectsGrid />
             <ContactSection />
         </div>
     );

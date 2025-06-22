@@ -66,7 +66,7 @@ const Navigation = () => {
             //     { name: 'Blockchain', path: '/services/detail/blockchain-development' }
             // ]
         },
-       
+
     ];
 
     useEffect(() => {
@@ -105,7 +105,7 @@ const Navigation = () => {
         { name: 'About', path: '/about' },
         { name: 'Projects', path: '/projects' },
         { name: 'Blog', path: '/blog' },
-        { name: 'Contact', path: '/contact' }
+        //  { name: 'Contact', path: '/contact' }
     ];
 
     const isActive = (path) => {

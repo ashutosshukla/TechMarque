@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 import { Phone, Mail, MapPin, Clock, AlertTriangle, CheckCircle } from 'lucide-react';
-import { containerVariants, itemVariants, fadeInFromLeft, fadeInFromRight } from '../utils/animations';
 
 const ContactSection = () => {
     const [formData, setFormData] = useState({
@@ -13,10 +10,6 @@ const ContactSection = () => {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
-    const [ref, inView] = useInView({
-        threshold: 0.1,
-        triggerOnce: false
-    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -41,63 +34,28 @@ const ContactSection = () => {
         });
     };
 
-    // Animation variants
-    const buttonVariants = {
-        rest: { scale: 1 },
-        hover: {
-            scale: 1.02,
-            boxShadow: "0px 5px 15px rgba(59, 130, 246, 0.5)"
-        },
-        tap: { scale: 0.98 }
-    };
-
-    const contactCardVariants = {
-        rest: { y: 0 },
-        hover: { y: -5 }
-    };
-
     return (
-        <motion.section
-            ref={ref}
+        <section
             id="contact"
             className="py-20 bg-slate-900"
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            variants={containerVariants}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div
-                    variants={containerVariants}
-                    className="text-center mb-16"
-                >
-                    <motion.h2
-                        variants={itemVariants}
-                        className="text-4xl md:text-5xl font-bold text-white mb-6"
-                    >
+                <div className="text-center mb-16">
+                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
                         Get In <span className="text-blue-400">Touch</span>
-                    </motion.h2>
-                    <motion.p
-                        variants={itemVariants}
-                        className="text-xl text-gray-300 max-w-3xl mx-auto"
-                    >
+                    </h2>
+                    <p className="text-xl text-gray-300 max-w-3xl mx-auto">
                         Ready to transform your business with innovative IT solutions? Let's discuss your project.
-                    </motion.p>
-                </motion.div>
+                    </p>
+                </div>
 
-                <motion.div
-                    variants={containerVariants}
-                    className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-                >
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Contact Form */}
-                    <motion.div
-                        variants={fadeInFromLeft}
-                        className="bg-slate-800 p-8 rounded-2xl shadow-lg border border-slate-700"
-                        whileHover={{ y: -5 }}
-                    >
+                    <div className="bg-slate-800 p-8 rounded-2xl shadow-lg border border-slate-700 hover:transform hover:-translate-y-1 transition-transform duration-200">
                         <h3 className="text-2xl font-bold text-white mb-6">Send us a message</h3>
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <motion.div variants={itemVariants}>
+                                <div>
                                     <label className="block text-gray-300 font-medium mb-2">Name *</label>
                                     <input
                                         type="text"
@@ -108,8 +66,8 @@ const ContactSection = () => {
                                         className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400"
                                         placeholder="Your Name"
                                     />
-                                </motion.div>
-                                <motion.div variants={itemVariants}>
+                                </div>
+                                <div>
                                     <label className="block text-gray-300 font-medium mb-2">Email *</label>
                                     <input
                                         type="email"
@@ -120,10 +78,10 @@ const ContactSection = () => {
                                         className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400"
                                         placeholder="your@email.com"
                                     />
-                                </motion.div>
+                                </div>
                             </div>
 
-                            <motion.div variants={itemVariants}>
+                            <div>
                                 <label className="block text-gray-300 font-medium mb-2">Company</label>
                                 <input
                                     type="text"
@@ -133,9 +91,9 @@ const ContactSection = () => {
                                     className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400"
                                     placeholder="Your Company"
                                 />
-                            </motion.div>
+                            </div>
 
-                            <motion.div variants={itemVariants}>
+                            <div>
                                 <label className="block text-gray-300 font-medium mb-2">Message *</label>
                                 <textarea
                                     name="message"
@@ -146,17 +104,13 @@ const ContactSection = () => {
                                     className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400 resize-none"
                                     placeholder="Tell us about your project..."
                                 ></textarea>
-                            </motion.div>
+                            </div>
 
-                            <motion.div variants={itemVariants}>
-                                <motion.button
+                            <div>
+                                <button
                                     type="submit"
-                                    variants={buttonVariants}
-                                    initial="rest"
-                                    whileHover="hover"
-                                    whileTap="tap"
                                     disabled={isSubmitting}
-                                    className={`w-full flex items-center justify-center gap-2 py-4 rounded-lg font-semibold transition-all duration-300 ${isSubmitting ? 'bg-blue-700' : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'} text-white`}
+                                    className={`w-full flex items-center justify-center gap-2 py-4 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg ${isSubmitting ? 'bg-blue-700' : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'} text-white`}
                                 >
                                     {isSubmitting ? (
                                         <>
@@ -169,42 +123,27 @@ const ContactSection = () => {
                                     ) : (
                                         'Send Message'
                                     )}
-                                </motion.button>
-                            </motion.div>
+                                </button>
+                            </div>
                         </form>
 
-                        <AnimatePresence>
-                            {submitSuccess && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -20 }}
-                                    className="mt-6 p-4 bg-green-900/50 border border-green-800 rounded-lg flex items-start gap-3"
-                                >
-                                    <CheckCircle className="text-green-400 mt-0.5 flex-shrink-0" />
-                                    <div>
-                                        <h4 className="font-medium text-green-100">Message sent successfully!</h4>
-                                        <p className="text-sm text-green-300">We'll get back to you within 24 hours.</p>
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </motion.div>
+                        {submitSuccess && (
+                            <div className="mt-6 p-4 bg-green-900/50 border border-green-800 rounded-lg flex items-start gap-3">
+                                <CheckCircle className="text-green-400 mt-0.5 flex-shrink-0" />
+                                <div>
+                                    <h4 className="font-medium text-green-100">Message sent successfully!</h4>
+                                    <p className="text-sm text-green-300">We'll get back to you within 24 hours.</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
 
                     {/* Contact Information */}
                     <div className="space-y-8">
-                        <motion.div
-                            variants={fadeInFromRight}
-                            className="bg-slate-800 p-8 rounded-2xl shadow-lg border border-slate-700"
-                            whileHover={{ y: -5 }}
-                        >
+                        <div className="bg-slate-800 p-8 rounded-2xl shadow-lg border border-slate-700 hover:transform hover:-translate-y-1 transition-transform duration-200">
                             <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
                             <div className="space-y-6">
-                                <motion.div
-                                    variants={contactCardVariants}
-                                    whileHover="hover"
-                                    className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-700/50 transition-colors duration-200 cursor-pointer"
-                                >
+                                <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-700/50 transition-colors duration-200 cursor-pointer">
                                     <div className="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center flex-shrink-0">
                                         <Phone className="text-blue-400" size={20} />
                                     </div>
@@ -212,27 +151,19 @@ const ContactSection = () => {
                                         <div className="font-semibold text-white">Phone</div>
                                         <a href="tel:+916377553223" className="text-gray-300 hover:text-blue-400 transition-colors">+91 6377553223</a>
                                     </div>
-                                </motion.div>
+                                </div>
 
-                                <motion.div
-                                    variants={contactCardVariants}
-                                    whileHover="hover"
-                                    className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-700/50 transition-colors duration-200 cursor-pointer"
-                                >
+                                <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-700/50 transition-colors duration-200 cursor-pointer">
                                     <div className="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center flex-shrink-0">
                                         <Mail className="text-blue-400" size={20} />
                                     </div>
                                     <div>
-                                        <div className="font-semibold text-white">Phone</div>
+                                        <div className="font-semibold text-white">Email</div>
                                         <a href="mailto:info@techmarquejaipur.com" className="text-gray-300 hover:text-blue-400 transition-colors">info@techmarquejaipur.com</a>
                                     </div>
-                                </motion.div>
+                                </div>
 
-                                <motion.div
-                                    variants={contactCardVariants}
-                                    whileHover="hover"
-                                    className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-700/50 transition-colors duration-200 cursor-pointer"
-                                >
+                                <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-700/50 transition-colors duration-200 cursor-pointer">
                                     <div className="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center flex-shrink-0">
                                         <MapPin className="text-blue-400" size={20} />
                                     </div>
@@ -240,16 +171,12 @@ const ContactSection = () => {
                                         <div className="font-semibold text-white">Address</div>
                                         <div className="text-gray-300">303, Ambay enclave, Jagatpura, Jaipur</div>
                                     </div>
-                                </motion.div>
+                                </div>
                             </div>
-                        </motion.div>
+                        </div>
 
                         {/* Business Hours */}
-                        <motion.div
-                            variants={fadeInFromRight}
-                            className="bg-gradient-to-br from-blue-900/80 to-blue-800/80 p-8 rounded-2xl text-white shadow-lg border border-blue-800/50"
-                            whileHover={{ y: -5 }}
-                        >
+                        <div className="bg-gradient-to-br from-blue-900/80 to-blue-800/80 p-8 rounded-2xl text-white shadow-lg border border-blue-800/50 hover:transform hover:-translate-y-1 transition-transform duration-200">
                             <div className="flex items-center gap-3 mb-6">
                                 <Clock className="text-blue-300" size={24} />
                                 <h3 className="text-2xl font-bold">Business Hours</h3>
@@ -268,10 +195,7 @@ const ContactSection = () => {
                                     <span className="font-medium text-white">Closed</span>
                                 </div>
                             </div>
-                            <motion.div
-                                whileHover={{ y: -2 }}
-                                className="mt-6 p-4 bg-blue-900/30 rounded-lg border border-blue-800/50"
-                            >
+                            <div className="mt-6 p-4 bg-blue-900/30 rounded-lg border border-blue-800/50 hover:transform hover:-translate-y-1 transition-transform duration-200">
                                 <div className="flex items-start gap-3">
                                     <AlertTriangle className="text-yellow-400 mt-0.5 flex-shrink-0" size={18} />
                                     <div>
@@ -279,12 +203,12 @@ const ContactSection = () => {
                                         <div className="text-sm text-blue-200">For critical issues, we provide round-the-clock support to ensure your business operations continue smoothly.</div>
                                     </div>
                                 </div>
-                            </motion.div>
-                        </motion.div>
+                            </div>
+                        </div>
                     </div>
-                </motion.div>
+                </div>
             </div>
-        </motion.section>
+        </section>
     );
 };
 

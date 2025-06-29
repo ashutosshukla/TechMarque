@@ -3,8 +3,7 @@ import HeroSection from '../components/HeroSection';
 import ContactSection from '../components/ContactSection';
 import Services from './Services';
 import AboutHero from '../components/About/AboutHero';
-import StackedProjectsCards from '../components/ProjectsCarousel ';
-import ModernProjectsGrid from '../components/ProjectsCarousel ';
+import ProjectsMarquee from '../components/ProjectsCarousel ';
 
 const Home = () => {
     return (
@@ -12,7 +11,7 @@ const Home = () => {
             <HeroSection />
             <Services />
             <AboutHero />
-            <ModernProjectsGrid />
+            <ProjectsMarquee />
             <ContactSection />
         </div>
     );

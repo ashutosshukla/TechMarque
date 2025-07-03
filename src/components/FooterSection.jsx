@@ -7,7 +7,7 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                     <div className="col-span-1 md:col-span-2">
                         <div className="text-2xl font-bold mb-4">
-                            TechFlow<span className="text-blue-400">Solutions</span>
+                            Zavame<span className="text-blue-400">Technologies</span>
                         </div>
                         <p className="text-gray-300 mb-4 max-w-md">
                             Empowering businesses through innovative IT solutions and digital transformation strategies. Your trusted partner in technology excellence.

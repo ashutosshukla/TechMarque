@@ -189,7 +189,7 @@ const AboutHero = () => {
                             variants={fadeInFromLeft}
                             className="inline-flex items-center px-4 py-2 bg-blue-900/30 rounded-full border border-blue-700/50"
                         >
-                            <span className="text-blue-400 font-medium">About TechMarque</span>
+                            <span className="text-blue-400 font-medium">About Zavame</span>
                         </motion.div>
 
                         <motion.h1

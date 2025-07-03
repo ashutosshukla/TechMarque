@@ -126,7 +126,7 @@ const Navigation = () => {
                         className={`text-2xl font-bold transition-colors ${scrolled ? 'text-slate-900' : 'text-white'
                             }`}
                     >
-                        TechMarque
+                        Zavame 
                     </Link>
 
                     <div className="hidden md:flex items-center space-x-8">

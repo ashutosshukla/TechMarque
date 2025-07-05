@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ExternalLink, Github, Filter, Calendar, User, Tag } from 'lucide-react';
+import { projectsData } from '../data/projectsData';
 
 const ProjectsPage = () => {
     const [selectedCategory, setSelectedCategory] = useState('All');
@@ -8,114 +9,7 @@ const ProjectsPage = () => {
     const categories = ['All', 'Web Development', 'Healthcare', 'Fintech', 'IoT', 'Education', 'E-commerce', 'Mobile Apps'];
     const technologies = ['All', 'React', 'Vue.js', 'Angular', 'Node.js', 'Python', 'Java', 'MongoDB', 'PostgreSQL'];
 
-    const allProjects = [
-        {
-            id: 1,
-            title: "E-Commerce Platform",
-            description: "A comprehensive e-commerce solution with advanced features including real-time inventory management, payment processing, order tracking, and customer analytics dashboard.",
-            image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=300&fit=crop",
-            category: "E-commerce",
-            technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-            client: "RetailCorp",
-            duration: "4 months",
-            year: "2024",
-            status: "Completed",
-            featured: true
-        },
-        {
-            id: 2,
-            title: "Healthcare Management System",
-            description: "Comprehensive healthcare platform with patient management, appointment scheduling, telemedicine capabilities, and integrated billing system.",
-            image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=300&fit=crop",
-            category: "Healthcare",
-            technologies: ["Vue.js", "Python", "PostgreSQL", "AWS"],
-            client: "MedTech Solutions",
-            duration: "6 months",
-            year: "2024",
-            status: "Completed",
-            featured: true
-        },
-        {
-            id: 3,
-            title: "Financial Analytics Dashboard",
-            description: "Real-time financial dashboard with advanced analytics, reporting, data visualization, and automated trading signals for investment firms.",
-            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
-            category: "Fintech",
-            technologies: ["Angular", "Java", "Spring Boot", "D3.js"],
-            client: "InvestPro",
-            duration: "3 months",
-            year: "2024",
-            status: "Completed",
-            featured: true
-        },
-        {
-            id: 4,
-            title: "IoT Smart Home System",
-            description: "Complete IoT solution for smart home automation with mobile app control, AI-powered energy optimization, and voice command integration.",
-            image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
-            category: "IoT",
-            technologies: ["React Native", "Python", "AWS IoT", "TensorFlow"],
-            client: "SmartLiving Inc",
-            duration: "5 months",
-            year: "2023",
-            status: "Completed",
-            featured: true
-        },
-        {
-            id: 5,
-            title: "Learning Management System",
-            description: "Advanced LMS with video streaming, interactive quizzes, progress tracking, AI-powered personalized learning paths, and collaborative tools.",
-            image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop",
-            category: "Education",
-            technologies: ["Next.js", "GraphQL", "Firebase", "WebRTC"],
-            client: "EduTech Academy",
-            duration: "4 months",
-            year: "2023",
-            status: "Completed",
-            featured: true
-        },
-        {
-            id: 6,
-            title: "Restaurant Management App",
-            description: "Mobile-first restaurant management solution with order management, inventory tracking, staff scheduling, and customer feedback system.",
-            image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop",
-            category: "Mobile Apps",
-            technologies: ["React Native", "Node.js", "MongoDB", "Socket.io"],
-            client: "FoodChain Co.",
-            duration: "3 months",
-            year: "2024",
-            status: "In Progress",
-            featured: false
-        },
-        {
-            id: 7,
-            title: "Real Estate Portal",
-            description: "Comprehensive real estate platform with property listings, virtual tours, mortgage calculator, and agent management system.",
-            image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop",
-            category: "Web Development",
-            technologies: ["React", "Python", "Django", "PostgreSQL"],
-            client: "PropertyPro",
-            duration: "5 months",
-            year: "2023",
-            status: "Completed",
-            featured: false
-        },
-        {
-            id: 8,
-            title: "Logistics Tracking System",
-            description: "End-to-end logistics management with real-time tracking, route optimization, delivery scheduling, and performance analytics.",
-            image: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=400&h=300&fit=crop",
-            category: "Web Development",
-            technologies: ["Vue.js", "Java", "MySQL", "Google Maps API"],
-            client: "LogiTech Corp",
-            duration: "4 months",
-            year: "2023",
-            status: "Completed",
-            featured: false
-        }
-    ];
-
-    const filteredProjects = allProjects.filter(project => {
+    const filteredProjects = projectsData.filter(project => {
         const categoryMatch = selectedCategory === 'All' || project.category === selectedCategory;
         const techMatch = selectedTech === 'All' || project.technologies.includes(selectedTech);
         return categoryMatch && techMatch;

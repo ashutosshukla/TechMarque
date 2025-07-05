@@ -4,6 +4,7 @@ import ContactSection from '../components/ContactSection';
 import Services from './Services';
 import AboutHero from '../components/About/AboutHero';
 import ProjectsMarquee from '../components/ProjectsCarousel ';
+import ProjectsSlider from '../components/ProjectsCarousel ';
 
 const Home = () => {
     return (
@@ -11,7 +12,7 @@ const Home = () => {
             <HeroSection />
             <Services />
             <AboutHero />
-            <ProjectsMarquee />
+            <ProjectsSlider />
             <ContactSection />
         </div>
     );

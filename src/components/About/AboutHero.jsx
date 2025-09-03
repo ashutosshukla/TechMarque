@@ -203,7 +203,7 @@ const AboutHero = () => {
                             variants={fadeInFromLeft}
                             className="text-xl text-gray-300 leading-relaxed"
                         >
-                            At TechMarque, we're more than just a technology company - we're architects of digital transformation.
+                            At Zavame, we're more than just a technology company - we're architects of digital transformation.
                             Since 2015, we've been helping businesses navigate the complex digital landscape with innovative solutions
                             that drive real results.
                         </motion.p>
@@ -240,7 +240,7 @@ const AboutHero = () => {
                     >
                         <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-1">
                             <div className="bg-slate-900 rounded-xl p-8">
-                                <h3 className="text-2xl font-bold text-white mb-6">Why Businesses Choose TechMarque</h3>
+                                <h3 className="text-2xl font-bold text-white mb-6">Why Businesses Choose Zavame</h3>
 
                                 <div className="space-y-6">
                                     {features.map((item, index) => (

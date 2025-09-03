@@ -303,7 +303,7 @@ Happy coding! 🚀
     
     def setup_demo_content(self):
         """Main method to set up all demo content"""
-        print("🚀 Starting TechMarque Blog Demo Setup...")
+        print("🚀 Starting  Blog Demo Setup...")
         print("=" * 50)
         
         # Step 1: Login

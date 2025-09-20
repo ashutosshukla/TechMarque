@@ -1,0 +1,28 @@
+# Robots.txt for Your Website
+User-agent: *
+Allow: /
+
+# Block admin pages from search engines
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/dashboard
+
+# Block any private or development files
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /build/
+Disallow: /src/
+Disallow: /node_modules/
+
+# Allow specific important directories
+Allow: /static/
+Allow: /assets/
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# Sitemap location
+Sitemap: https://zavame.com/sitemap.xml
+
+# Crawl delay (optional - adjust as needed)
+Crawl-delay: 1

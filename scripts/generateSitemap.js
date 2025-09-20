@@ -1,5 +1,3 @@
-// scripts/generateSitemap.js
-// Dynamic sitemap generator for build process
 
 import fs from 'fs';
 import path from 'path';

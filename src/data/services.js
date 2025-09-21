@@ -7,16 +7,26 @@ export const services = [
         title: "Web Development",
         shortDescription: "We build modern, responsive, and fast websites tailored to your business.",
         features: ["Responsive Design", "CMS Integration", "Custom Pages", "SEO-friendly Code"],
-        detailedDescription: "Our web development services focus on creating visually appealing, highly functional websites that engage your audience and drive results. From landing pages to full-scale web apps, we handle it all.",
+         detailedDescription: `At Zavame, we provide end-to-end web development services designed to help businesses build a strong digital presence. Our goal is to deliver websites and applications that are not only visually appealing but also fast, secure, and user-friendly.
+
+                                 We specialize in custom website development, creating responsive and mobile-friendly sites tailored to your brand and business needs. For businesses looking to sell online, we design and develop e-commerce platforms with secure payment gateways, product management, and seamless shopping experiences.
+
+                                    Our team also works with popular CMS platforms like WordPress, Shopify, and Magento, as well as developing custom CMS solutions that give you complete control over your website content. Beyond websites, we build web applications including dashboards, portals, and SaaS solutions that streamline operations and enhance customer engagement.
+
+                                With a strong focus on UI/UX design, we ensure every website we create is intuitive, engaging, and aligned with your brand identity. To keep your digital presence running smoothly, we also offer website maintenance and support, including regular updates, security monitoring, and performance optimization.
+
+                             Whether you’re a startup, small business, or enterprise, we provide scalable solutions to help you grow online and stay ahead in today’s competitive digital landscape.`,
         technologies: ["React", "Next.js", "Vue.js", "HTML5", "CSS3"],
-        pricing: "Starting from $2,000",
+        pricing: "Starting from 15,0000",
         timeline: "2-6 weeks",
         benefits: [
             "Custom tailored designs",
             "SEO optimized",
             "Mobile-friendly",
             "Fast loading speed",
-            "Ongoing support"
+            "Ongoing support",
+            "Stronger Online Presence",
+            "Improved Customer Engagement"
         ]
     },
     {

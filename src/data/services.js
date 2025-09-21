@@ -37,9 +37,13 @@ export const services = [
         title: "Ecommerce Website",
         shortDescription: "Create powerful online stores to boost your sales and reach.",
         features: ["Product Management", "Secure Payment Integration", "Cart & Checkout", "Order Tracking"],
-        detailedDescription: "Our ecommerce solutions help you launch feature-rich online stores with secure transactions and excellent user experiences.",
+        detailedDescription: `At Zavame, we specialize in designing and developing e-commerce websites that help businesses sell their products online seamlessly and efficiently. Our e-commerce solutions are tailored to meet the unique needs of your business, ensuring a smooth shopping experience for your customers while providing you with complete control over your store.
+
+We create responsive and mobile-friendly online stores that look great on any device, enabling your customers to browse, select, and purchase products easily. Our development process includes integrating secure payment gateways, inventory management systems, and product catalogs that are easy to manage. We also ensure that your website is optimized for speed, security, and search engines, helping you reach a larger audience and generate more sales.
+
+Our team works with popular e-commerce platforms such as Shopify, WooCommerce, Magento, or we can build a custom e-commerce solution tailored to your business requirements. From user-friendly interfaces to advanced features like wishlists, product filtering, reviews, and order tracking, we focus on creating an engaging and intuitive shopping experience.`,
         technologies: ["Shopify", "WooCommerce", "Magento", "React"],
-        pricing: "Starting from $3,000",
+        pricing: "Starting from 30,000",
         timeline: "3-8 weeks",
         benefits: [
             "Custom online store",

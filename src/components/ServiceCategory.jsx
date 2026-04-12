@@ -1,5 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { services, serviceCategories } from '../data/services';
 import {
     Code, Cloud, Shield, Users,
@@ -10,6 +12,7 @@ import {
 const ServiceCategory = () => {
     const { category } = useParams();
     const navigate = useNavigate();
+    const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
 
     const iconComponents = {
         Code: Code,
@@ -23,114 +26,179 @@ const ServiceCategory = () => {
         Globe: Globe2
     };
 
-    // Find the current category details
     const currentCategory = serviceCategories.find(cat => cat.slug === category);
-
-    // Filter services by category
     const categoryServices = services.filter(service => service.category === category);
 
     const handleLearnMore = (slug) => {
         navigate(`/services/detail/${slug}`);
     };
 
-    return (
-        <div className="min-h-screen bg-white">
-            {/* Category Hero Section */}
-            <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <button
-                            onClick={() => navigate('/services')}
-                            className="flex items-center justify-center mx-auto text-blue-600 hover:text-blue-800 mb-6 transition-colors"
-                        >
-                            <ChevronLeft size={20} />
-                            <span>Back to All Services</span>
-                        </button>
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: { staggerChildren: 0.12, delayChildren: 0.2 }
+        }
+    };
 
-                        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+    const cardVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+    };
+
+    return (
+        <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #0a0e27 0%, #0f1839 50%, #0a0e27 100%)' }}>
+            {/* Background Elements */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <motion.div
+                    className="absolute top-40 left-10 w-72 h-72 bg-zavame-teal/5 rounded-full blur-3xl"
+                    animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                    className="absolute bottom-40 right-10 w-96 h-96 bg-zavame-blue/5 rounded-full blur-3xl"
+                    animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.3, 0.15] }}
+                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                />
+            </div>
+
+            {/* Category Hero Section */}
+            <section className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto">
+                    <motion.div
+                        className="text-center"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <motion.button
+                            onClick={() => navigate('/services')}
+                            className="flex items-center justify-center mx-auto text-zavame-teal hover:text-zavame-teal-light mb-8 transition-all duration-300 group"
+                            whileHover={{ x: -5 }}
+                        >
+                            <ChevronLeft size={18} />
+                            <span className="text-sm font-medium">Back to All Services</span>
+                        </motion.button>
+
+                        <motion.h1
+                            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 tracking-tight"
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.1 }}
+                        >
                             {currentCategory?.name || 'Services'}
-                        </h1>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        </motion.h1>
+                        <motion.p
+                            className="text-lg text-gray-400 max-w-3xl mx-auto"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                        >
                             {currentCategory?.description || 'Comprehensive solutions for your business needs'}
-                        </p>
-                    </div>
+                        </motion.p>
+                    </motion.div>
                 </div>
             </section>
 
             {/* Category Services Grid */}
-            <section className="py-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="relative py-16 px-4 sm:px-6 lg:px-8" ref={ref}>
+                <div className="max-w-7xl mx-auto">
                     {categoryServices.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <motion.div
+                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate={inView ? "visible" : "hidden"}
+                        >
                             {categoryServices.map((service) => {
                                 const IconComponent = iconComponents[service.icon];
                                 return (
-                                    <div
+                                    <motion.div
                                         key={service.id}
-                                        className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+                                        variants={cardVariants}
+                                        className="group relative"
                                     >
-                                        <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">
-                                            <IconComponent className="text-blue-400" size={48} />
-                                        </div>
+                                        {/* Glow */}
+                                        <div className="absolute -inset-0.5 bg-gradient-to-br from-zavame-teal/20 to-zavame-blue/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-lg" />
 
-                                        <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors">
-                                            {service.title}
-                                        </h3>
-
-                                        <p className="text-gray-600 mb-6 leading-relaxed">
-                                            {service.shortDescription}
-                                        </p>
-
-                                        <div className="space-y-2 mb-6">
-                                            {service.features.slice(0, 3).map((feature, featureIndex) => (
-                                                <div key={featureIndex} className="flex items-center gap-3">
-                                                    <CheckCircle className="text-green-500 flex-shrink-0" size={16} />
-                                                    <span className="text-gray-700">{feature}</span>
-                                                </div>
-                                            ))}
-                                            {service.features.length > 3 && (
-                                                <div className="text-sm text-gray-500">
-                                                    +{service.features.length - 3} more features
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        <div className="flex items-center justify-between">
-                                            <button
-                                                onClick={() => handleLearnMore(service.slug)}
-                                                className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all"
+                                        <div className="relative bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 group-hover:border-zavame-teal/30 transition-all duration-500 hover:bg-white/[0.07] h-full flex flex-col">
+                                            <motion.div
+                                                className="mb-6 inline-flex p-3 bg-zavame-teal/10 rounded-xl group-hover:bg-zavame-teal/20 transition-colors duration-300"
+                                                whileHover={{ scale: 1.1, rotate: 5 }}
                                             >
-                                                Learn More
-                                                <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
-                                            </button>
-                                            <div className="text-sm text-gray-500">
-                                                {service.pricing}
+                                                <IconComponent className="text-zavame-teal" size={28} />
+                                            </motion.div>
+
+                                            <h3 className="text-xl font-bold text-white mb-3 group-hover:text-zavame-teal transition-colors duration-300">
+                                                {service.title}
+                                            </h3>
+
+                                            <p className="text-gray-400 mb-6 leading-relaxed text-sm flex-grow">
+                                                {service.shortDescription}
+                                            </p>
+
+                                            <div className="space-y-2.5 mb-6">
+                                                {service.features.slice(0, 3).map((feature, featureIndex) => (
+                                                    <div key={featureIndex} className="flex items-center gap-2.5">
+                                                        <CheckCircle className="text-zavame-teal flex-shrink-0" size={14} />
+                                                        <span className="text-gray-300 text-sm">{feature}</span>
+                                                    </div>
+                                                ))}
+                                                {service.features.length > 3 && (
+                                                    <div className="text-xs text-gray-500 pl-6">
+                                                        +{service.features.length - 3} more features
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                                                <button
+                                                    onClick={() => handleLearnMore(service.slug)}
+                                                    className="text-zavame-teal hover:text-zavame-teal-light font-semibold flex items-center gap-2 group/btn transition-all text-sm"
+                                                >
+                                                    Learn More
+                                                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                                                </button>
+                                                <div className="text-xs text-zavame-teal/50 font-medium">
+                                                    {service.pricing}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 );
                             })}
-                        </div>
+                        </motion.div>
                     ) : (
-                        <div className="text-center py-12">
-                            <h3 className="text-xl font-medium text-gray-600">No services found in this category</h3>
-                            <button
+                        <motion.div
+                            className="text-center py-12"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                        >
+                            <h3 className="text-xl font-medium text-gray-400">No services found in this category</h3>
+                            <motion.button
                                 onClick={() => navigate('/services')}
-                                className="mt-4 text-blue-600 hover:text-blue-800 font-medium flex items-center justify-center mx-auto gap-1"
+                                className="mt-4 text-zavame-teal hover:text-zavame-teal-light font-medium flex items-center justify-center mx-auto gap-1"
+                                whileHover={{ x: -5 }}
                             >
                                 <ChevronLeft size={16} />
                                 <span>Browse all services</span>
-                            </button>
-                        </div>
+                            </motion.button>
+                        </motion.div>
                     )}
 
                     {/* Category Benefits Section */}
                     {categoryServices.length > 0 && (
-                        <div className="mt-20 bg-gray-50 rounded-2xl p-8 md:p-12">
-                            <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
-                                Why Choose Our {currentCategory?.name} Services?
+                        <motion.div
+                            className="mt-24 bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/10"
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                        >
+                            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-8 text-center tracking-tight">
+                                Why Choose Our <span className="text-zavame-teal">{currentCategory?.name}</span> Services?
                             </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                                 {[
                                     "Expertise in the latest technologies",
                                     "Proven track record of success",
@@ -139,43 +207,62 @@ const ServiceCategory = () => {
                                     "Dedicated support",
                                     "Industry best practices"
                                 ].map((benefit, index) => (
-                                    <div key={index} className="bg-white p-6 rounded-xl shadow-sm">
+                                    <motion.div
+                                        key={index}
+                                        className="bg-white/5 p-6 rounded-xl border border-white/5 hover:border-zavame-teal/20 transition-all duration-300"
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.08 }}
+                                        viewport={{ once: true }}
+                                    >
                                         <div className="flex items-center gap-3 mb-3">
-                                            <div className="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center">
+                                            <div className="bg-zavame-teal/15 text-zavame-teal rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
                                                 {index + 1}
                                             </div>
-                                            <h3 className="text-lg font-semibold text-slate-800">{benefit}</h3>
+                                            <h3 className="text-sm font-semibold text-white">{benefit}</h3>
                                         </div>
-                                        <p className="text-gray-600">
-                                            Our team delivers exceptional results through {benefit.toLowerCase()} in every project we undertake.
+                                        <p className="text-gray-400 text-sm">
+                                            Our team delivers exceptional results through {benefit.toLowerCase()} in every project.
                                         </p>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
-                        </div>
+                        </motion.div>
                     )}
 
                     {/* CTA Section */}
-                    <div className="mt-20 text-center">
-                        <h2 className="text-3xl font-bold text-slate-900 mb-6">
+                    <motion.div
+                        className="mt-24 text-center"
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                    >
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-6 tracking-tight">
                             Ready to transform your business?
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                            Get in touch with our experts to discuss how our {currentCategory?.name.toLowerCase()} services can help you achieve your goals.
+                        <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-10">
+                            Get in touch with our experts to discuss how our {currentCategory?.name?.toLowerCase()} services can help you achieve your goals.
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center gap-4">
-                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-semibold transition-colors flex items-center justify-center gap-2">
+                            <motion.button
+                                className="px-8 py-4 bg-gradient-to-r from-zavame-teal to-zavame-blue text-white rounded-full font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-zavame-teal/30 flex items-center justify-center gap-2"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.98 }}
+                            >
                                 Get Free Consultation
-                                <Phone size={20} />
-                            </button>
-                            <button
+                                <Phone size={18} />
+                            </motion.button>
+                            <motion.button
                                 onClick={() => navigate('/contact')}
-                                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-full font-semibold transition-colors"
+                                className="px-8 py-4 border-2 border-zavame-teal/40 text-zavame-teal hover:bg-zavame-teal/10 rounded-full font-semibold transition-all duration-300"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.98 }}
                             >
                                 Contact Us
-                            </button>
+                            </motion.button>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </section>
         </div>

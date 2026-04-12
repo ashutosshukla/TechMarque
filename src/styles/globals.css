@@ -2,39 +2,106 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+/* ===== Zavame Brand Design System ===== */
+
+:root {
+  --zavame-teal: #35ACCC;
+  --zavame-teal-light: #4BC5E3;
+  --zavame-teal-dark: #2A8FA8;
+  --zavame-coral: #FE5B51;
+  --zavame-coral-light: #FF7D75;
+  --zavame-blue: #5271FF;
+  --zavame-blue-light: #7490FF;
+  --zavame-navy: #0a0e27;
+  --zavame-navy-light: #0f1839;
 }
 
-.animate-float {
-  animation: float 4s ease-in-out infinite;
-}
-
-/* Smooth scrolling */
+/* ===== Smooth scrolling ===== */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== Custom Scrollbar ===== */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #0a0e27;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3b82f6;
+  background: #35ACCC;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background: #4BC5E3;
+}
+
+/* ===== Selection ===== */
+::selection {
+  background-color: rgba(53, 172, 204, 0.3);
+  color: #fff;
+}
+
+/* ===== Custom Utilities ===== */
+@layer utilities {
+  .text-gradient-zavame {
+    @apply bg-gradient-to-r from-zavame-teal via-zavame-blue to-zavame-coral bg-clip-text text-transparent;
+  }
+
+  .text-gradient-teal {
+    @apply bg-gradient-to-r from-zavame-teal to-zavame-blue bg-clip-text text-transparent;
+  }
+
+  .bg-gradient-zavame {
+    @apply bg-gradient-to-r from-zavame-teal to-zavame-blue;
+  }
+
+  .bg-gradient-zavame-warm {
+    @apply bg-gradient-to-r from-zavame-teal via-zavame-blue to-zavame-coral;
+  }
+
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
+  .glass-card-hover {
+    @apply hover:bg-white/10 hover:border-zavame-teal/30 transition-all duration-300;
+  }
+
+  .glow-teal {
+    box-shadow: 0 0 30px rgba(53, 172, 204, 0.3), 0 0 60px rgba(53, 172, 204, 0.1);
+  }
+
+  .glow-coral {
+    box-shadow: 0 0 30px rgba(254, 91, 81, 0.3), 0 0 60px rgba(254, 91, 81, 0.1);
+  }
+}
+
+/* ===== Animations ===== */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delay-1 {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-float-delay-2 {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 2s;
 }

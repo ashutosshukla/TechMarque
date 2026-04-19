@@ -4,14 +4,31 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/Zavame.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Preload critical font (only the weights used above the fold) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-    
+    <!-- Preload critical images used in the hero section -->
+    <link rel="preload" as="image" href="/Zavame.svg" />
+
+    <!-- DNS prefetch for any API calls -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+
     <title>Zavame Technologies: Top Website & Mobile App Development Company</title>
     <meta name="description" content="Zavame Technologies offers top website development and mobile app development services in India. Trusted company for web design, SEO and app solutions" />
     <link rel="canonical" href="https://www.zavame.com/" />
+
+    <!-- Inline critical CSS for instant paint -->
+    <style>
+      /* Prevent FOUC — show dark background immediately */
+      body { margin: 0; background: #0a0e27; }
+      #root { min-height: 100vh; }
+    </style>
   </head>
 
   <body>

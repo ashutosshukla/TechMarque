@@ -67,10 +67,9 @@ const AboutHero = () => {
     }, [controls, inView]);
 
     const stats = [
-        { icon: <Users size={24} className="text-zavame-teal" />, value: "200+", label: "Satisfied Clients" },
-        { icon: <Code2 size={24} className="text-zavame-teal" />, value: "500+", label: "Projects Completed" },
-        { icon: <Globe size={24} className="text-zavame-teal" />, value: "15+", label: "Countries Served" },
-        { icon: <Award size={24} className="text-zavame-teal" />, value: "25+", label: "Industry Awards" }
+        { icon: <Users size={24} className="text-zavame-teal" />, value: "10+", label: "Satisfied Clients" },
+        { icon: <Code2 size={24} className="text-zavame-teal" />, value: "50+", label: "Projects Completed" },
+        { icon: <Globe size={24} className="text-zavame-teal" />, value: "3", label: "Countries Served" },
     ];
 
     const features = [

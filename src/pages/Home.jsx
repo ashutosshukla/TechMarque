@@ -3,8 +3,8 @@ import HeroSection from '../components/HeroSection';
 import ContactSection from '../components/ContactSection';
 import Services from './Services';
 import AboutHero from '../components/About/AboutHero';
-import ProjectsMarquee from '../components/ProjectsCarousel ';
 import ProjectsSlider from '../components/ProjectsCarousel ';
+import IndustriesSection from '../components/IndustriesSection';
 import SEO from '../components/SEO';
 
 const Home = () => {
@@ -20,6 +20,7 @@ const Home = () => {
             <HeroSection />
             <Services />
             <AboutHero />
+            <IndustriesSection />
             <ProjectsSlider />
             <ContactSection />
         </div>

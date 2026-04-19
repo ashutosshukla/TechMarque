@@ -74,8 +74,8 @@ const Navigation = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-                    ? 'bg-[#080c1f]/95 backdrop-blur-2xl shadow-xl shadow-black/30 border-b border-white/5'
-                    : 'bg-transparent'
+                ? 'bg-[#080c1f]/95 backdrop-blur-2xl shadow-xl shadow-black/30 border-b border-white/5'
+                : 'bg-transparent'
                 }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -83,9 +83,9 @@ const Navigation = () => {
 
                     {/* ── Logo ── */}
                     <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                        {/* <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
                             <span className="text-white font-black text-sm">Z</span>
-                        </div>
+                        </div> */}
                         <span className="text-lg md:text-xl font-bold text-white tracking-tight">
                             Zavame<span className="text-emerald-400">.</span>
                         </span>
@@ -99,8 +99,8 @@ const Navigation = () => {
                                     <button
                                         onClick={() => setOpenServices((v) => !v)}
                                         className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive(item.path)
-                                                ? 'text-emerald-400 bg-emerald-400/10'
-                                                : 'text-gray-300 hover:text-white hover:bg-white/5'
+                                            ? 'text-emerald-400 bg-emerald-400/10'
+                                            : 'text-gray-300 hover:text-white hover:bg-white/5'
                                             }`}
                                     >
                                         {item.name}
@@ -152,8 +152,8 @@ const Navigation = () => {
                                     key={item.name}
                                     to={item.path}
                                     className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive(item.path)
-                                            ? 'text-emerald-400 bg-emerald-400/10'
-                                            : 'text-gray-300 hover:text-white hover:bg-white/5'
+                                        ? 'text-emerald-400 bg-emerald-400/10'
+                                        : 'text-gray-300 hover:text-white hover:bg-white/5'
                                         }`}
                                 >
                                     {item.name}
@@ -176,8 +176,8 @@ const Navigation = () => {
                                 <Link
                                     to="/admin/dashboard"
                                     className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${location.pathname.startsWith('/admin')
-                                            ? 'bg-emerald-500/20 text-emerald-400'
-                                            : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                        ? 'bg-emerald-500/20 text-emerald-400'
+                                        : 'text-gray-400 hover:text-white hover:bg-white/5'
                                         }`}
                                 >
                                     <Shield size={14} />
@@ -255,8 +255,8 @@ const Navigation = () => {
                                             <button
                                                 onClick={() => setMobileServicesOpen((v) => !v)}
                                                 className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isActive(item.path)
-                                                        ? 'text-emerald-400 bg-emerald-400/10'
-                                                        : 'text-gray-300 hover:text-white hover:bg-white/5'
+                                                    ? 'text-emerald-400 bg-emerald-400/10'
+                                                    : 'text-gray-300 hover:text-white hover:bg-white/5'
                                                     }`}
                                             >
                                                 {item.name}
@@ -293,8 +293,8 @@ const Navigation = () => {
                                         <Link
                                             to={item.path}
                                             className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isActive(item.path)
-                                                    ? 'text-emerald-400 bg-emerald-400/10'
-                                                    : 'text-gray-300 hover:text-white hover:bg-white/5'
+                                                ? 'text-emerald-400 bg-emerald-400/10'
+                                                : 'text-gray-300 hover:text-white hover:bg-white/5'
                                                 }`}
                                         >
                                             {item.name}

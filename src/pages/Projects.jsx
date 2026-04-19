@@ -87,7 +87,7 @@ const ProjectsPage = () => {
                                     <img
                                         src={project.image}
                                         alt={project.title}
-                                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                                        className="w-full h-48 object-contain p-6 bg-slate-900 group-hover:scale-110 transition-transform duration-300"
                                     />
                                     <div className="absolute top-4 left-4">
                                         <span className={`px-3 py-1 text-xs font-semibold rounded-full ${project.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'

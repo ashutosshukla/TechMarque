@@ -1,144 +1,160 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { services } from '../data/services';
 import {
     Code, Cloud, Shield, Users,
     Settings, Lock, Cpu, Link,
-    CheckCircle, ArrowRight, Phone, ChevronLeft,
-    Globe
+    CheckCircle, ArrowRight, Phone,
+    Globe, Zap, Smartphone, Megaphone, Database
 } from 'lucide-react';
 
 const ServiceSection = () => {
     const { category } = useParams();
     const navigate = useNavigate();
-    const [activeCategory, setActiveCategory] = useState(category || 'all');
 
-    // Debugging: Log current category and services
+    const [activeCategory, setActiveCategory] = useState('all');
+    const [hoveredService, setHoveredService] = useState(null);
+
+    // ✅ Sync URL with state
     useEffect(() => {
-        console.log('Current category:', activeCategory);
-        console.log('Filtered services:', services.filter(service =>
-            activeCategory === 'all' || service.category === activeCategory
-        ));
-    }, [activeCategory]);
+        if (category) {
+            setActiveCategory(category);
+        } else {
+            setActiveCategory('all');
+        }
+    }, [category]);
 
     const iconComponents = {
-        Code: Code,
-        Cloud: Cloud,
-        Shield: Shield,
-        Users: Users,
-        Settings: Settings,
-        Lock: Lock,
-        Cpu: Cpu,
-        Link: Link,
-        Globe: Globe
+        Code,
+        Cloud,
+        Shield,
+        Users,
+        Settings,
+        Lock,
+        Cpu,
+        Link,
+        Globe,
+        Zap,
+        Smartphone,
+        Megaphone,
+        Database
     };
 
-    const filteredServices = activeCategory === 'all'
-        ? services
-        : services.filter(service => service.category === activeCategory);
+    // ✅ Safe filtering
+    const filteredServices =
+        activeCategory === 'all'
+            ? services
+            : services.filter(service => service.category === activeCategory);
 
-    const handleCategoryChange = (categorySlug) => {
-        setActiveCategory(categorySlug);
-        // Ensure this matches your route in App.js
-        navigate(`/services/${categorySlug}`);
+    const categories = ['all', ...new Set(services.map(s => s.category))];
+
+    const handleCategoryChange = (cat) => {
+        setActiveCategory(cat);
+        navigate(cat === 'all' ? '/services' : `/services/${cat}`);
     };
 
     const handleLearnMore = (slug) => {
-        // Ensure this matches your route in App.js
         navigate(`/services/detail/${slug}`);
     };
 
     return (
-        <div className="min-h-screen bg-white">
-            {/* Hero Section */}
-            <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
-                            Our <span className="text-blue-600">Services</span>
-                        </h1>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                            Comprehensive IT solutions designed to accelerate your business growth.
-                        </p>
-                        <div className="flex justify-center">
-                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-semibold transition-colors flex items-center gap-2">
-                                Get Free Consultation
-                                <Phone size={20} />
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        <div className="min-h-screen bg-gradient-to-b from-[#0a0e27] via-[#0f1839] to-[#0a0e27]">
+
+            {/* HERO */}
+            <section className="py-24 text-center px-4">
+                <h1 className="text-5xl font-bold text-white mb-6">
+                    Our <span className="text-zavame-teal">Services</span>
+                </h1>
+
+                <p className="text-gray-400 max-w-2xl mx-auto mb-10">
+                    Explore our complete range of digital services designed to grow your business.
+                </p>
+
+                <button
+                    onClick={() => navigate('/contact')}
+                    className="px-6 py-3 bg-gradient-to-r from-zavame-teal to-zavame-blue text-white rounded-full flex items-center gap-2 mx-auto"
+                >
+                    Get Free Consultation <Phone size={18} />
+                </button>
             </section>
 
+            {/* CATEGORY FILTER */}
+            <div className="flex flex-wrap justify-center gap-3 mb-16 px-4">
+                {categories.map((cat) => (
+                    <button
+                        key={cat}
+                        onClick={() => handleCategoryChange(cat)}
+                        className={`px-4 py-2 rounded-full text-sm transition ${activeCategory === cat
+                            ? 'bg-zavame-teal text-white'
+                            : 'bg-white/10 text-gray-300 hover:bg-zavame-teal/20'
+                            }`}
+                    >
+                        {cat.toUpperCase()}
+                    </button>
+                ))}
+            </div>
 
-            {/* Services Grid */}
-            <section className="py-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    {filteredServices.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {filteredServices.map((service) => {
-                                const IconComponent = iconComponents[service.icon];
+            {/* SERVICES GRID */}
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 pb-20">
 
-                                if (!IconComponent) {
-                                    console.error(`Missing icon for: ${service.icon}`);
-                                    return null;
-                                }
+                {filteredServices.length > 0 ? (
+                    filteredServices.map((service) => {
+                        const Icon = iconComponents[service.icon];
 
-                                return (
-                                    <div
-                                        key={service.id}
-                                        className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
-                                    >
-                                        <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">
-                                            <IconComponent className="text-blue-400" size={48} />
-                                        </div>
-
-                                        <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors">
-                                            {service.title}
-                                        </h3>
-
-                                        <p className="text-gray-600 mb-6 leading-relaxed">
-                                            {service.shortDescription}
-                                        </p>
-
-                                        <div className="space-y-2 mb-6">
-                                            {service.features.map((feature, featureIndex) => (
-                                                <div key={featureIndex} className="flex items-center gap-3">
-                                                    <CheckCircle className="text-green-500 flex-shrink-0" size={16} />
-                                                    <span className="text-gray-700">{feature}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        <div className="flex items-center justify-between">
-                                            <button
-                                                onClick={() => handleLearnMore(service.slug)}
-                                                className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all"
-                                            >
-                                                Learn More
-                                                <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
-                                            </button>
-                                            <div className="text-sm text-gray-500">
-                                                {service.pricing}
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    ) : (
-                        <div className="text-center py-12">
-                            <h3 className="text-xl font-medium text-gray-600">No services found in this category</h3>
-                            <button
-                                onClick={() => handleCategoryChange('all')}
-                                className="mt-4 text-blue-600 hover:text-blue-800 font-medium"
+                        return (
+                            <div
+                                key={service.id}
+                                onMouseEnter={() => setHoveredService(service.id)}
+                                onMouseLeave={() => setHoveredService(null)}
+                                className="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-zavame-teal transition"
                             >
-                                Browse all services
-                            </button>
-                        </div>
-                    )}
-                </div>
-            </section>
+                                <div className="mb-4">
+                                    {Icon && <Icon className="text-zavame-teal" size={26} />}
+                                </div>
+
+                                <h3 className="text-xl font-bold text-white mb-2">
+                                    {service.title}
+                                </h3>
+
+                                <p className="text-gray-400 text-sm mb-4">
+                                    {service.shortDescription}
+                                </p>
+
+                                <div className="space-y-2 mb-6">
+                                    {service.features.slice(0, 3).map((f, i) => (
+                                        <div key={i} className="flex gap-2 text-sm text-gray-300">
+                                            <CheckCircle size={14} className="text-zavame-teal" />
+                                            {f}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <button
+                                    onClick={() => handleLearnMore(service.slug)}
+                                    className="text-zavame-teal flex items-center gap-1 text-sm"
+                                >
+                                    Learn More <ArrowRight size={14} />
+                                </button>
+                            </div>
+                        );
+                    })
+                ) : (
+                    <div className="col-span-full text-center text-gray-400">
+                        No services found
+                    </div>
+                )}
+            </div>
+
+            {/* CTA */}
+            <div className="text-center pb-20">
+                <button
+                    onClick={() => navigate('/contact')}
+                    className="px-8 py-4 bg-gradient-to-r from-zavame-teal to-zavame-blue text-white rounded-full"
+                >
+                    Start Your Project
+                </button>
+            </div>
         </div>
     );
 };

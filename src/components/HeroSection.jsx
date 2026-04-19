@@ -1,154 +1,220 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { ChevronDown, ArrowRight } from 'lucide-react';
-import { staggerContainer, fadeInFromLeft, fadeInFromRight, popIn, scaleUp, containerVariants, itemVariants } from '../utils/animations';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { ChevronDown, ArrowRight, Cloud, Smartphone, Globe, Share2, Code2 } from 'lucide-react';
+import AnimatedGlobe from './AnimatedGlobe';
 
 const HeroSection = () => {
     const [scrollY, setScrollY] = useState(0);
+    const navigate = useNavigate();
+
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const servicePills = [
+        { label: 'Cloud Solutions', slug: 'custom-software-development' },
+        { label: 'Web Development', slug: 'web-development' },
+        { label: 'Ecommerce', slug: 'ecommerce-website' },
+        { label: 'Mobile Apps', slug: 'custom-software-development' },
+        { label: 'Social Media', slug: 'social-media-marketing' },
+        { label: 'CRM Developer', slug: 'crm' }
+    ];
+
     return (
         <motion.section
             id="home"
-            className="relative min-h-[calc(100vh-4rem)] sm:min-h-[calc(100vh-5rem)] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 pt-16 sm:pt-0"
+            className="relative min-h-screen flex items-center justify-center overflow-hidden"
             style={{
-                scrollMarginTop: '4rem',
+                background: 'linear-gradient(135deg, #0a0e27 0%, #0f1839 50%, #0d1624 100%)',
             }}
         >
-            {/* Animated Background Elements - Faster animations */}
+            {/* Animated Gradient Background */}
             <div className="absolute inset-0">
                 <motion.div
-                    className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"
-                    animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-emerald-500/20 to-emerald-400/10 rounded-full blur-3xl"
+                    animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 />
                 <motion.div
-                    className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"
+                    className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-l from-blue-500/20 to-blue-400/10 rounded-full blur-3xl"
+                    animate={{ scale: [1.1, 1, 1.1], opacity: [0.4, 0.2, 0.4] }}
+                    transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+                />
+                <motion.div
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-b from-cyan-500/10 to-transparent rounded-full blur-3xl"
                     animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
-                />
-                <motion.div
-                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-600/5 rounded-full blur-3xl"
-                    animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.3, 0.1] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.15 }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
                 />
             </div>
 
-            {/* Floating Code Elements - Faster float animation */}
-            <div className="absolute inset-0 pointer-events-none">
-                {[...Array(6)].map((_, i) => (
+            {/* Grid Background Pattern */}
+            <div className="absolute inset-0 opacity-10">
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        backgroundImage:
+                            'linear-gradient(0deg, transparent 24%, rgba(34, 211, 238, 0.05) 25%, rgba(34, 211, 238, 0.05) 26%, transparent 27%, transparent 74%, rgba(34, 211, 238, 0.05) 75%, rgba(34, 211, 238, 0.05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(34, 211, 238, 0.05) 25%, rgba(34, 211, 238, 0.05) 26%, transparent 27%, transparent 74%, rgba(34, 211, 238, 0.05) 75%, rgba(34, 211, 238, 0.05) 76%, transparent 77%, transparent)',
+                        backgroundSize: '50px 50px',
+                    }}
+                />
+            </div>
+
+            {/* Floating Tech Icons */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                {[
+                    { Icon: Cloud, top: '15%', left: '8%', delay: 0 },
+                    { Icon: Smartphone, top: '25%', right: '12%', delay: 0.5 },
+                    { Icon: Globe, top: '65%', left: '10%', delay: 1 },
+                    { Icon: Share2, top: '70%', right: '8%', delay: 1.5 },
+                    { Icon: Code2, top: '45%', right: '20%', delay: 0.8 },
+                ].map((item, i) => (
                     <motion.div
                         key={i}
-                        className="absolute text-blue-400/20 font-mono text-sm"
-                        style={{
-                            left: `${20 + i * 15}%`,
-                            top: `${30 + (i % 2) * 40}%`,
-                            transform: `translateY(${scrollY * 0.1}px)`
-                        }}
-                        initial={{ opacity: 1, y: 0 }}
-                        animate={{
-                            y: [0, -15, 0]
-                        }}
-                        transition={{
-                            y: { duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.1 }
-                        }}
+                        className="absolute text-emerald-400/30"
+                        style={{ top: item.top, left: item.left, right: item.right }}
+                        animate={{ y: [0, -20, 0], opacity: [0.2, 0.4, 0.2] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: item.delay }}
                     >
-                        {['</>', '{}', '[]', '()', '::', '=>'][i]}
+                        <item.Icon size={48} />
                     </motion.div>
                 ))}
             </div>
 
-            <motion.div
-                className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto mt-8 sm:mt-0"
+            {/* Main Content — Two-column layout */}
+            <div
+                className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full pt-20 md:pt-24 pb-16"
+                style={{ transform: `translateY(${scrollY * 0.15}px)` }}
             >
-                <motion.div
-                    className="transform transition-all duration-300 ease-out"
-                    style={{ transform: `translateY(${scrollY * 0.2}px)` }}
-                >
-                    <motion.h1
-                        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
-                    >
-                        Transforming Ideas Into
-                        <motion.span
-                            className="block bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mt-2 sm:mt-4"
+                <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+                    {/* Left: Text Content */}
+                    <div className="flex-1 text-center lg:text-left">
+                        {/* Main Heading */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
                         >
-                            Digital Solutions
-                        </motion.span>
-                    </motion.h1>
+                            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
+                                Your Vision,
+                                <motion.span
+                                    className="block bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent mt-2 sm:mt-4"
+                                    initial={{ opacity: 0, x: -30 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.8, delay: 0.4 }}
+                                >
+                                    Our Mission
+                                </motion.span>
+                            </h1>
+                        </motion.div>
 
-                    <motion.p
-                        className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed"
-                    >
-                        We craft cutting-edge IT solutions that drive innovation, streamline operations, and accelerate your business growth in the digital age.
-                    </motion.p>
-
-                    <motion.div
-                        className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
-                    >
-                        <motion.button
-                            onClick={() => document.getElementById('services').scrollIntoView({ behavior: 'smooth' })}
-                            className="group bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold transition-all duration-200 transform hover:scale-105 hover:shadow-2xl flex items-center gap-2"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.98 }}
-                            transition={{ duration: 0.15 }}
+                        {/* Subheading */}
+                        <motion.p
+                            className="text-lg sm:text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl leading-relaxed"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.3 }}
                         >
-                            Explore Our Services
-                            <ArrowRight className="group-hover:translate-x-1 transition-transform duration-200" size={20} />
-                        </motion.button>
+                            50+ projects delivered • 10+ satisfied clients • Expert team in cloud solutions, web & mobile development,CRM development, social media & digital marketing
+                        </motion.p>
 
-                        <motion.button
-                            onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-                            className="border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold transition-all duration-200 transform hover:scale-105"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.98 }}
-                            transition={{ duration: 0.15 }}
+                        {/* Service Pills */}
+                        <motion.div
+                            className="flex flex-wrap gap-3 justify-center lg:justify-start mb-10"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.8, delay: 0.4 }}
                         >
-                            Get In Touch
-                        </motion.button>
-                    </motion.div>
+                            {servicePills.map((service, i) => (
+                                <motion.span
+                                    key={i}
+                                    onClick={() => navigate(`/services/detail/${service.slug}`)}
+                                    className="px-4 py-2 rounded-full bg-gray-800/50 border border-emerald-500/30 text-gray-300 text-sm backdrop-blur-sm hover:border-emerald-500/60 hover:bg-emerald-500/10 transition-all duration-300 cursor-pointer"
+                                    whileHover={{ scale: 1.05 }}
+                                    transition={{ delay: i * 0.05 }}
+                                >
+                                    {service.label}
+                                </motion.span>
+                            ))}
+                        </motion.div>
 
-                    {/* Stats - Faster animations */}
-                    <motion.div
-                        className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center"
-                    >
-                        {[
-                            { number: '100+', label: 'Projects Completed' },
-                            { number: '50+', label: 'Happy Clients' },
-                            { number: '5+', label: 'Years Experience' },
-                            { number: '24/7', label: 'Support' }
-                        ].map((stat, index) => (
-                            <motion.div
-                                key={index}
-                                className="transform hover:scale-110 transition-all duration-200"
-                                whileHover={{
-                                    scale: 1.1,
-                                    transition: { duration: 0.15 }
-                                }}
+                        {/* CTA Buttons */}
+                        <motion.div
+                            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.5 }}
+                        >
+                            <motion.button
+                                onClick={() => navigate('/services')}
+                                className="group relative px-8 py-4 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold rounded-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/50"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.98 }}
                             >
-                                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-400 mb-2">{stat.number}</div>
-                                <div className="text-gray-300 text-xs sm:text-sm md:text-base">{stat.label}</div>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </motion.div>
-            </motion.div>
+                                <span className="relative z-10 flex items-center gap-2">
+                                    Explore Our Services
+                                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" />
+                                </span>
+                                <motion.div
+                                    className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-0 group-hover:opacity-100"
+                                    transition={{ duration: 0.3 }}
+                                />
+                            </motion.button>
 
-            {/* Scroll Indicator - Faster bounce */}
+                            <motion.button
+                                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                                className="px-8 py-4 border-2 border-emerald-500/50 text-emerald-400 font-semibold rounded-full hover:bg-emerald-500/10 transition-all duration-300 hover:border-emerald-400 backdrop-blur-sm"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.98 }}
+                            >
+                                Get In Touch
+                            </motion.button>
+                        </motion.div>
+                    </div>
+
+                    {/* Right: Animated Globe */}
+                    <div className="flex-shrink-0 flex items-center justify-center">
+                        <AnimatedGlobe />
+                    </div>
+                </div>
+
+                {/* Stats */}
+                <motion.div
+                    className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 pt-8 mt-12 border-t border-gray-700/30"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 0.6 }}
+                >
+                    {[
+                        { number: '50+', label: 'Projects Completed' },
+                        { number: '10+', label: 'Happy Clients' },
+                        { number: '3+', label: 'Years Experience' },
+                        { number: '24/7', label: 'Client Support' },
+                    ].map((stat, index) => (
+                        <motion.div
+                            key={index}
+                            className="group text-center"
+                            whileHover={{ scale: 1.08, transition: { duration: 0.2 } }}
+                        >
+                            <div className="text-3xl mb-2">{stat.icon}</div>
+                            <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+                                {stat.number}
+                            </div>
+                            <div className="text-gray-400 text-xs sm:text-sm">{stat.label}</div>
+                        </motion.div>
+                    ))}
+                </motion.div>
+            </div>
+
+            {/* Scroll Indicator */}
             <motion.div
                 className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-                animate={{
-                    y: [0, -8, 0]
-                }}
-                transition={{
-                    y: { duration: 1, repeat: Infinity, ease: "easeInOut" }
-                }}
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             >
-                <ChevronDown className="text-white/60" size={32} />
+                <ChevronDown className="text-emerald-400/60 drop-shadow-lg" size={32} />
             </motion.div>
         </motion.section>
     );

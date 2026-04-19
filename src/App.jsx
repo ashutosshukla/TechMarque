@@ -1,48 +1,62 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
-import About from './pages/About';
-import Projects from './pages/Projects';
-import Contact from './pages/Contact';
-import Blog from './pages/Blog';
-import BlogPost from './pages/BlogPost';
-import AdminLogin from './pages/AdminLogin';
-import AdminDashboard from './components/Dashboard/AdminDashboard';
-import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute
 import Footer from './components/FooterSection';
 import './styles/globals.css';
-import ServiceSection from './components/ServiceSection';
-import ServiceDetail from './components/ServiceDetail';
-import ServiceCategory from './components/ServiceCategory';
+
+// Lazy load non-critical routes
+const About = lazy(() => import('./pages/About'));
+const Projects = lazy(() => import('./pages/Projects'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Blog = lazy(() => import('./pages/Blog'));
+const BlogPost = lazy(() => import('./pages/BlogPost'));
+const AdminLogin = lazy(() => import('./pages/AdminLogin'));
+const AdminDashboard = lazy(() => import('./components/Dashboard/AdminDashboard'));
+const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
+const ServiceSection = lazy(() => import('./components/ServiceSection'));
+const ServiceDetail = lazy(() => import('./components/ServiceDetail'));
+const ServiceCategory = lazy(() => import('./components/ServiceCategory'));
+
+// Simple loading fallback
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a0e27' }}>
+    <div className="flex flex-col items-center gap-4">
+      <div className="w-10 h-10 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin" />
+      <span className="text-gray-400 text-sm">Loading...</span>
+    </div>
+  </div>
+);
 
 const App = () => {
   return (
     <Router>
       <div className="App">
         <Navigation />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/services" element={<ServiceSection />} />
-          <Route path="/services/:category" element={<ServiceCategory />} />
-          <Route path="/services/detail/:slug" element={<ServiceDetail />} />
-          <Route path="/services/:slug" element={<ServiceDetail />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedRoute>
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/services" element={<ServiceSection />} />
+            <Route path="/services/:category" element={<ServiceCategory />} />
+            <Route path="/services/detail/:slug" element={<ServiceDetail />} />
+            <Route path="/services/:slug" element={<ServiceDetail />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </Suspense>
         <Footer />
       </div>
     </Router>

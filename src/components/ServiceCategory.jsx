@@ -1,5 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { services, serviceCategories } from '../data/services';
 import {
     Code, Cloud, Shield, Users,
@@ -10,172 +12,155 @@ import {
 const ServiceCategory = () => {
     const { category } = useParams();
     const navigate = useNavigate();
+    const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
 
     const iconComponents = {
-        Code: Code,
-        Cloud: Cloud,
-        Shield: Shield,
-        Users: Users,
-        Settings: Settings,
-        Lock: Lock,
-        Cpu: Cpu,
-        Link: Link,
+        Code,
+        Cloud,
+        Shield,
+        Users,
+        Settings,
+        Lock,
+        Cpu,
+        Link,
         Globe: Globe2
     };
 
-    // Find the current category details
-    const currentCategory = serviceCategories.find(cat => cat.slug === category);
+    const currentCategory = serviceCategories.find(
+        cat => cat.slug.toLowerCase() === category?.toLowerCase()
+    );
 
-    // Filter services by category
-    const categoryServices = services.filter(service => service.category === category);
+    const categoryServices = services.filter(
+        service => service.category.toLowerCase() === category?.toLowerCase()
+    );
 
     const handleLearnMore = (slug) => {
-        navigate(`/services/detail/${slug}`);
+        navigate(`/services/${slug}`); // ✅ FIXED
+    };
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: { staggerChildren: 0.12, delayChildren: 0.2 }
+        }
+    };
+
+    const cardVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
     };
 
     return (
-        <div className="min-h-screen bg-white">
-            {/* Category Hero Section */}
-            <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <button
-                            onClick={() => navigate('/services')}
-                            className="flex items-center justify-center mx-auto text-blue-600 hover:text-blue-800 mb-6 transition-colors"
-                        >
-                            <ChevronLeft size={20} />
-                            <span>Back to All Services</span>
-                        </button>
+        <div className="min-h-screen relative" style={{ background: 'linear-gradient(180deg, #0a0e27 0%, #0f1839 50%, #0a0e27 100%)' }}>
 
-                        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-                            {currentCategory?.name || 'Services'}
-                        </h1>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            {currentCategory?.description || 'Comprehensive solutions for your business needs'}
-                        </p>
-                    </div>
-                </div>
+            {/* Background */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <motion.div
+                    className="absolute top-40 left-10 w-72 h-72 bg-zavame-teal/5 rounded-full blur-3xl"
+                    animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+                    transition={{ duration: 6, repeat: Infinity }}
+                />
+                <motion.div
+                    className="absolute bottom-40 right-10 w-96 h-96 bg-zavame-blue/5 rounded-full blur-3xl"
+                    animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.3, 0.15] }}
+                    transition={{ duration: 8, repeat: Infinity }}
+                />
+            </div>
+
+            {/* Hero */}
+            <section className="relative py-24 px-4 text-center">
+                <motion.button
+                    onClick={() => navigate('/services')}
+                    className="text-zavame-teal mb-6 flex items-center justify-center mx-auto gap-1"
+                >
+                    <ChevronLeft size={18} /> Back to Services
+                </motion.button>
+
+                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                    {currentCategory?.name || 'Services'}
+                </h1>
+
+                <p className="text-gray-400 max-w-2xl mx-auto">
+                    {currentCategory?.description || 'Explore our services'}
+                </p>
             </section>
 
-            {/* Category Services Grid */}
-            <section className="py-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Services Grid */}
+            <section ref={ref} className="px-4 pb-16">
+                <div className="max-w-7xl mx-auto">
+
                     {categoryServices.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {categoryServices.map((service) => {
-                                const IconComponent = iconComponents[service.icon];
+                        <motion.div
+                            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate={inView ? "visible" : "hidden"}
+                        >
+                            {categoryServices.map(service => {
+                                const IconComponent = iconComponents[service.icon] || Code;
+
                                 return (
-                                    <div
-                                        key={service.id}
-                                        className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
-                                    >
-                                        <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">
-                                            <IconComponent className="text-blue-400" size={48} />
-                                        </div>
+                                    <motion.div key={service.id} variants={cardVariants} className="group relative">
 
-                                        <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors">
-                                            {service.title}
-                                        </h3>
+                                        <div className="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-zavame-teal/30 transition h-full flex flex-col">
 
-                                        <p className="text-gray-600 mb-6 leading-relaxed">
-                                            {service.shortDescription}
-                                        </p>
+                                            <IconComponent className="text-zavame-teal mb-4" size={28} />
 
-                                        <div className="space-y-2 mb-6">
-                                            {service.features.slice(0, 3).map((feature, featureIndex) => (
-                                                <div key={featureIndex} className="flex items-center gap-3">
-                                                    <CheckCircle className="text-green-500 flex-shrink-0" size={16} />
-                                                    <span className="text-gray-700">{feature}</span>
-                                                </div>
-                                            ))}
-                                            {service.features.length > 3 && (
-                                                <div className="text-sm text-gray-500">
-                                                    +{service.features.length - 3} more features
-                                                </div>
-                                            )}
-                                        </div>
+                                            <h3 className="text-white font-bold text-lg mb-2">
+                                                {service.title}
+                                            </h3>
 
-                                        <div className="flex items-center justify-between">
-                                            <button
-                                                onClick={() => handleLearnMore(service.slug)}
-                                                className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all"
-                                            >
-                                                Learn More
-                                                <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
-                                            </button>
-                                            <div className="text-sm text-gray-500">
-                                                {service.pricing}
+                                            <p className="text-gray-400 text-sm mb-4 flex-grow">
+                                                {service.shortDescription}
+                                            </p>
+
+                                            <div className="space-y-2 mb-4">
+                                                {service.features.slice(0, 3).map((f, i) => (
+                                                    <div key={i} className="flex gap-2 text-sm text-gray-300">
+                                                        <CheckCircle size={14} className="text-zavame-teal" />
+                                                        {f}
+                                                    </div>
+                                                ))}
                                             </div>
+
+                                            <div className="flex justify-between items-center mt-auto pt-4 border-t border-white/10">
+                                                <button
+                                                    onClick={() => handleLearnMore(service.slug)}
+                                                    className="text-zavame-teal text-sm flex items-center gap-1"
+                                                >
+                                                    Learn More <ArrowRight size={14} />
+                                                </button>
+
+                                                <span className="text-xs text-gray-400">
+                                                    {service.pricing || "Custom Pricing"}
+                                                </span>
+                                            </div>
+
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 );
                             })}
-                        </div>
+                        </motion.div>
                     ) : (
-                        <div className="text-center py-12">
-                            <h3 className="text-xl font-medium text-gray-600">No services found in this category</h3>
-                            <button
-                                onClick={() => navigate('/services')}
-                                className="mt-4 text-blue-600 hover:text-blue-800 font-medium flex items-center justify-center mx-auto gap-1"
-                            >
-                                <ChevronLeft size={16} />
-                                <span>Browse all services</span>
-                            </button>
+                        <div className="text-center text-gray-400">
+                            No services found
                         </div>
                     )}
 
-                    {/* Category Benefits Section */}
-                    {categoryServices.length > 0 && (
-                        <div className="mt-20 bg-gray-50 rounded-2xl p-8 md:p-12">
-                            <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
-                                Why Choose Our {currentCategory?.name} Services?
-                            </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {[
-                                    "Expertise in the latest technologies",
-                                    "Proven track record of success",
-                                    "Custom solutions for your business",
-                                    "Competitive pricing",
-                                    "Dedicated support",
-                                    "Industry best practices"
-                                ].map((benefit, index) => (
-                                    <div key={index} className="bg-white p-6 rounded-xl shadow-sm">
-                                        <div className="flex items-center gap-3 mb-3">
-                                            <div className="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center">
-                                                {index + 1}
-                                            </div>
-                                            <h3 className="text-lg font-semibold text-slate-800">{benefit}</h3>
-                                        </div>
-                                        <p className="text-gray-600">
-                                            Our team delivers exceptional results through {benefit.toLowerCase()} in every project we undertake.
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* CTA Section */}
-                    <div className="mt-20 text-center">
-                        <h2 className="text-3xl font-bold text-slate-900 mb-6">
-                            Ready to transform your business?
+                    {/* CTA */}
+                    <div className="text-center mt-20">
+                        <h2 className="text-2xl font-bold text-white mb-4">
+                            Ready to get started?
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                            Get in touch with our experts to discuss how our {currentCategory?.name.toLowerCase()} services can help you achieve your goals.
-                        </p>
-                        <div className="flex flex-col sm:flex-row justify-center gap-4">
-                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-semibold transition-colors flex items-center justify-center gap-2">
-                                Get Free Consultation
-                                <Phone size={20} />
-                            </button>
-                            <button
-                                onClick={() => navigate('/contact')}
-                                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-full font-semibold transition-colors"
-                            >
-                                Contact Us
-                            </button>
-                        </div>
+                        <button
+                            onClick={() => navigate('/contact')}
+                            className="bg-zavame-teal px-6 py-3 rounded-full text-white flex items-center gap-2 mx-auto"
+                        >
+                            Contact Us <Phone size={16} />
+                        </button>
                     </div>
+
                 </div>
             </section>
         </div>

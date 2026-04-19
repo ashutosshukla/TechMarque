@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ExternalLink, Github, Filter, Calendar, User, Tag } from 'lucide-react';
 import { projectsData } from '../data/projectsData';
 
 const ProjectsPage = () => {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [selectedTech, setSelectedTech] = useState('All');
+    const navigate = useNavigate();
 
     const categories = ['All', 'Web Development', 'Healthcare', 'Fintech', 'IoT', 'Education', 'E-commerce', 'Mobile Apps'];
     const technologies = ['All', 'React', 'Vue.js', 'Angular', 'Node.js', 'Python', 'Java', 'MongoDB', 'PostgreSQL'];
@@ -87,10 +89,12 @@ const ProjectsPage = () => {
                                     <img
                                         src={project.image}
                                         alt={project.title}
-                                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                                        className="w-full h-48 object-contain p-6 bg-slate-900 group-hover:scale-110 transition-transform duration-300"
                                     />
                                     <div className="absolute top-4 left-4">
-                                        <span className={`px-3 py-1 text-xs font-semibold rounded-full ${project.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                                        <span className={`px-3 py-1 text-xs font-semibold rounded-full ${project.status === 'Completed'
+                                            ? 'bg-green-100 text-green-800'
+                                            : 'bg-yellow-100 text-yellow-800'
                                             }`}>
                                             {project.status}
                                         </span>
@@ -180,8 +184,12 @@ const ProjectsPage = () => {
                     <p className="text-xl text-blue-100 mb-8">
                         Let's discuss how we can bring your vision to life with our expertise and innovative solutions.
                     </p>
+
                     <button
-                        onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                        onClick={() => {
+                            navigate('/contact');
+                            window.scrollTo(0, 0);
+                        }}
                         className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-full font-semibold transition-colors text-lg"
                     >
                         Start Your Project

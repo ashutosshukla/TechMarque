@@ -14,7 +14,7 @@ const Home = () => {
                 title="Zavame - Professional Web Development & Digital Solutions"
                 description="Transform your ideas into digital reality with Zavame's expert web development, mobile app development, and UI/UX design services. Professional solutions for modern businesses."
                 canonicalUrl="/"
-                keywords="web development, mobile app development, UI UX design, digital solutions, React development, Node.js, zavame, professional web design"
+                keywords="web development, mobile app development, UI UX design, digital solutions, React development, Node.js, zavame, professional web design, Crm developer"
                 ogImage="https://zavame.com/og-home-image.jpg"
             />
             <HeroSection />

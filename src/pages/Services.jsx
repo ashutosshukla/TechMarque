@@ -23,20 +23,20 @@ const Services = () => {
     const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
 
     const handleLearnMore = (slug) => {
-        navigate(`/services/detail/${slug}`);
+        navigate(`/services/${slug}`); // ✅ FIXED ROUTE
     };
 
     const iconComponents = {
-        Code: Code,
-        Cloud: Cloud,
-        Shield: Shield,
-        Users: Users,
-        Globe: Globe,
-        Settings: Settings,
-        Lock: Lock,
-        Cpu: Cpu,
-        Link: Link,
-        ShoppingCart: ShoppingCart
+        Code,
+        Cloud,
+        Shield,
+        Users,
+        Globe,
+        Settings,
+        Lock,
+        Cpu,
+        Link,
+        ShoppingCart
     };
 
     const containerVariants = {
@@ -65,13 +65,15 @@ const Services = () => {
             }}
             ref={ref}
         >
-            {/* Background Elements */}
+            {/* Background */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-20 right-0 w-96 h-96 bg-zavame-teal/5 rounded-full blur-3xl" />
                 <div className="absolute bottom-20 left-0 w-72 h-72 bg-zavame-blue/5 rounded-full blur-3xl" />
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+                {/* Heading */}
                 <motion.div
                     className="text-center mb-16"
                     initial={{ opacity: 0, y: 20 }}
@@ -88,26 +90,27 @@ const Services = () => {
                             What We Do
                         </span>
                     </motion.div>
+
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">
                         Our <span className="text-zavame-teal">Services</span>
                     </h2>
+
                     <p className="text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
                         Comprehensive IT solutions designed to accelerate your business growth and digital transformation journey.
                     </p>
                 </motion.div>
 
+                {/* Services Grid */}
                 <motion.div
                     className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
                     variants={containerVariants}
                     initial="hidden"
                     animate={inView ? "visible" : "hidden"}
                 >
-                    {services.slice(0, 4).map((service, index) => {
+                    {services.map((service, index) => {  // ✅ SHOW ALL SERVICES
                         const IconComponent = iconComponents[service.icon];
-                        if (!IconComponent) {
-                            console.error(`Icon component not found for: ${service.icon}`);
-                            return null;
-                        }
+
+                        if (!IconComponent) return null;
 
                         return (
                             <motion.div
@@ -115,10 +118,19 @@ const Services = () => {
                                 variants={cardVariants}
                                 className="group relative"
                             >
-                                {/* Glow effect */}
+                                {/* Glow */}
                                 <div className="absolute -inset-0.5 bg-gradient-to-r from-zavame-teal/20 to-zavame-blue/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-lg" />
 
                                 <div className="relative bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 group-hover:border-zavame-teal/30 transition-all duration-500 hover:bg-white/[0.07] h-full">
+
+                                    {/* 🔥 Popular Badge */}
+                                    {service.featured && (
+                                        <span className="absolute top-4 right-4 bg-zavame-teal text-white text-xs px-2 py-1 rounded-full">
+                                            Popular
+                                        </span>
+                                    )}
+
+                                    {/* Icon */}
                                     <div className="mb-6">
                                         <motion.div
                                             className="inline-flex p-3 bg-zavame-teal/10 rounded-xl group-hover:bg-zavame-teal/20 transition-colors duration-300"
@@ -128,16 +140,19 @@ const Services = () => {
                                         </motion.div>
                                     </div>
 
+                                    {/* Title */}
                                     <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 group-hover:text-zavame-teal transition-colors duration-300">
                                         {service.title}
                                     </h3>
 
+                                    {/* Description */}
                                     <p className="text-gray-400 mb-6 leading-relaxed hidden md:block text-sm">
                                         {service.shortDescription}
                                     </p>
 
+                                    {/* Features (limited) */}
                                     <div className="space-y-2.5">
-                                        {service.features.map((feature, featureIndex) => (
+                                        {service.features.slice(0, 4).map((feature, featureIndex) => (
                                             <div key={featureIndex} className="flex items-start gap-3">
                                                 <CheckCircle className="text-zavame-teal flex-shrink-0 mt-0.5" size={14} />
                                                 <span className="text-gray-300 text-sm leading-relaxed">{feature}</span>
@@ -145,6 +160,7 @@ const Services = () => {
                                         ))}
                                     </div>
 
+                                    {/* Button */}
                                     <button
                                         onClick={() => handleLearnMore(service.slug)}
                                         className="mt-8 text-zavame-teal hover:text-zavame-teal-light font-medium flex items-center gap-2 transition-all duration-300 group/btn text-sm"

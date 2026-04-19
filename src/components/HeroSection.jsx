@@ -20,6 +20,7 @@ const HeroSection = () => {
         { label: 'Ecommerce', slug: 'ecommerce-website' },
         { label: 'Mobile Apps', slug: 'custom-software-development' },
         { label: 'Social Media', slug: 'social-media-marketing' },
+        { label: 'CRM Developer', slug: 'crm' }
     ];
 
     return (
@@ -104,7 +105,7 @@ const HeroSection = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.8, delay: 0.4 }}
                                 >
-                                    Our Digital Expertise
+                                    Our Mission
                                 </motion.span>
                             </h1>
                         </motion.div>
@@ -116,7 +117,7 @@ const HeroSection = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.3 }}
                         >
-                            50+ projects delivered • 10+ satisfied clients • Expert team in cloud solutions, web & mobile development, social media & digital marketing
+                            50+ projects delivered • 10+ satisfied clients • Expert team in cloud solutions, web & mobile development,CRM development, social media & digital marketing
                         </motion.p>
 
                         {/* Service Pills */}

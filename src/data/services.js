@@ -238,8 +238,55 @@ We also specialize in presentation and pitch deck design — transforming your c
             "Designs optimized for print and digital",
             "Revisions until you're satisfied"
         ]
+    },
+    {
+        id: 7,
+        slug: "crm-development",
+        category: "software",
+        icon: "Users",
+        title: "CRM Development",
+        shortDescription: "Custom CRM systems to manage leads, automate workflows, and boost customer relationships.",
+
+        features: [
+            "Lead & Pipeline Management",
+            "Customer Data & Interaction Tracking",
+            "Automation Workflows & Notifications",
+            "Custom Dashboard & Reports",
+            "Role-based Access Control",
+            "Third-party Integrations (WhatsApp, Email, APIs)"
+        ],
+
+        detailedDescription: `Managing customer relationships efficiently is key to business growth. Zavame builds powerful custom CRM (Customer Relationship Management) systems tailored to your workflow and business goals.
+
+Our CRM solutions help you track leads, manage sales pipelines, automate repetitive tasks, and gain valuable insights through analytics dashboards. Whether you're a startup or an enterprise, we design systems that improve team productivity and enhance customer engagement.
+
+We integrate your CRM with tools like WhatsApp, email platforms, payment gateways, and other APIs to create a seamless ecosystem. Every CRM we build is scalable, secure, and accessible from anywhere.
+
+From planning and UI/UX design to development and deployment, we ensure a smooth process and provide ongoing support to keep your system optimized.`,
+
+        technologies: ["React", "Node.js", "MongoDB", "Express", "Firebase", "REST API"],
+
+        timeline: "2–6 weeks",
+
+        process: [
+            "Requirement Analysis & CRM Planning",
+            "UI/UX Dashboard Design",
+            "Backend Development & Database Setup",
+            "Integration with External Tools",
+            "Testing & Deployment",
+            "Support & Maintenance"
+        ],
+
+        benefits: [
+            "Centralized customer data management",
+            "Improved sales tracking and conversion",
+            "Automation of repetitive tasks",
+            "Better team collaboration",
+            "Scalable and secure system"
+        ]
     }
 ];
+
 
 export const serviceCategories = [
     {
@@ -271,5 +318,10 @@ export const serviceCategories = [
         slug: "creative",
         name: "Graphic Designing",
         description: "Creative visuals that represent your brand"
+    },
+    {
+        slug: "crm",
+        name: "CRM Development",
+        description: "Custom CRM systems to manage customers and sales"
     }
 ];

@@ -20,6 +20,7 @@ const Navigation = () => {
         { name: 'Search Engine Optimization', path: '/services/detail/search-engine-optimization' },
         { name: 'Social Media Marketing', path: '/services/detail/social-media-marketing' },
         { name: 'Graphic Designing', path: '/services/detail/graphic-designing' },
+        { name: 'CRM Developer', path: '/services/detail/crm' },
     ];
 
     const navItems = [

@@ -16,7 +16,6 @@ const SEO = ({
 
   return (
     <>
-      {/* React 19 automatically hoists these to <head> */}
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
@@ -29,15 +28,11 @@ const SEO = ({
       <meta property="og:url" content={fullUrl} />
       <meta property="og:type" content={type} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
       <meta property="og:site_name" content="Zavame" />
       <meta property="og:locale" content="en_US" />
       
       {/* Twitter Card Tags */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content={twitterHandle} />
-      <meta name="twitter:creator" content={twitterHandle} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
@@ -45,51 +40,36 @@ const SEO = ({
       {/* Additional SEO Meta Tags */}
       <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
       <meta name="googlebot" content="index, follow" />
-      <meta name="bingbot" content="index, follow" />
-      
-      {/* Language and Region */}
-      <meta httpEquiv="content-language" content="en-US" />
       
       {/* Structured Data for Organization */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
-          "name": "Zavame",
+          "name": "Zavame Technologies",
           "url": "https://zavame.com",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://zavame.com/logo.png",
-            "width": "300",
-            "height": "100"
+            "url": "https://zavame.com/Zavame.svg"
           },
           "description": "Professional web development, mobile app development, and UI/UX design services",
           "address": {
             "@type": "PostalAddress",
-            "addressCountry": "US"
+            "streetAddress": "Civil Lines",
+            "addressLocality": "Jaipur",
+            "addressRegion": "Rajasthan",
+            "postalCode": "302006",
+            "addressCountry": "IN"
           },
-          "sameAs": [
-            "https://twitter.com/zavame",
-            "https://linkedin.com/company/zavame",
-            "https://github.com/zavame"
-          ],
           "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+1-XXX-XXX-XXXX",
+            "telephone": "+91 9783598702",
             "contactType": "customer service",
             "availableLanguage": "English"
           },
-          "founder": {
-            "@type": "Person",
-            "name": "Zavame Team"
-          },
-          "foundingDate": "2020",
-          "numberOfEmployees": "10-50",
-          "priceRange": "$$",
-          "serviceArea": {
-            "@type": "Place",
-            "name": "Worldwide"
-          }
+          "sameAs": [
+            "https://www.instagram.com/zavame_technologies"
+          ]
         })
       }} />
 
@@ -100,18 +80,11 @@ const SEO = ({
           "@type": "WebSite",
           "name": "Zavame",
           "url": "https://zavame.com",
-          "description": description,
-          "publisher": {
-            "@type": "Organization",
-            "name": "Zavame"
-          },
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://zavame.com/search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-          }
+          "description": description
         })
       }} />
+    </>
+  );
     </>
   );
 };

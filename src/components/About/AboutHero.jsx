@@ -138,12 +138,12 @@ const AboutHero = () => {
                             <span className="text-zavame-teal font-medium text-sm">About Zavame</span>
                         </motion.div>
 
-                        <motion.h1
+                        <h2
                             variants={fadeInFromLeft}
                             className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight tracking-tight"
                         >
                             Building <span className="text-zavame-teal">Digital Foundations</span> for Tomorrow's Success
-                        </motion.h1>
+                        </h2>
 
                         <motion.p
                             variants={fadeInFromLeft}

@@ -17,6 +17,7 @@ const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
 const ServiceSection = lazy(() => import('./components/ServiceSection'));
 const ServiceDetail = lazy(() => import('./components/ServiceDetail'));
 const ServiceCategory = lazy(() => import('./components/ServiceCategory'));
+const Sitemap = lazy(() => import('./pages/Sitemap'));
 
 // Simple loading fallback
 const PageLoader = () => (
@@ -55,6 +56,7 @@ const App = () => {
             />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/sitemap" element={<Sitemap />} />
           </Routes>
         </Suspense>
         <Footer />

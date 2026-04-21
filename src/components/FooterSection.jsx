@@ -139,6 +139,9 @@ const Footer = () => {
                         &copy; {currentYear} Zavame Technologies. All rights reserved.
                     </p>
                     <div className="flex items-center gap-6">
+                        <Link to="/sitemap" className="text-gray-500 hover:text-zavame-teal transition-colors text-xs">
+                            Sitemap
+                        </Link>
                         <a href="#" className="text-gray-500 hover:text-zavame-teal transition-colors text-xs">
                             Privacy Policy
                         </a>

@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 // Your website domain
 const DOMAIN = 'https://zavame.com';
 
-// Static routes from your App.js
+// Static routes from App.jsx
 const staticRoutes = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
   { path: '/about', priority: '0.8', changefreq: 'monthly' },
@@ -18,25 +18,28 @@ const staticRoutes = [
   { path: '/projects', priority: '0.8', changefreq: 'weekly' },
   { path: '/blog', priority: '0.8', changefreq: 'daily' },
   { path: '/contact', priority: '0.7', changefreq: 'monthly' },
+  { path: '/sitemap', priority: '0.5', changefreq: 'monthly' },
 ];
 
-// Dynamic routes - you would fetch these from your CMS/database
-const dynamicRoutes = {
-  services: [
-    { slug: 'web-development', priority: '0.7' },
-    { slug: 'mobile-development', priority: '0.7' },
-    { slug: 'ui-ux-design', priority: '0.7' },
-  ],
-  serviceDetails: [
-    { slug: 'react-development', priority: '0.6' },
-    { slug: 'nodejs-development', priority: '0.6' },
-    { slug: 'python-development', priority: '0.6' },
-  ],
-  blogPosts: [
-    { slug: 'getting-started-with-react', date: '2025-01-10', priority: '0.6' },
-    { slug: 'best-practices-web-development', date: '2025-01-05', priority: '0.6' },
-  ]
-};
+const serviceSlugs = [
+    "web-development",
+    "ecommerce-website",
+    "custom-software-development",
+    "search-engine-optimization",
+    "social-media-marketing",
+    "graphic-designing",
+    "crm-development"
+];
+
+const categorySlugs = [
+    "web",
+    "ecommerce",
+    "software",
+    "seo",
+    "marketing",
+    "creative",
+    "crm"
+];
 
 function generateSitemap() {
   const currentDate = new Date().toISOString().split('T')[0];
@@ -56,43 +59,38 @@ function generateSitemap() {
   });
 
   // Add service categories
-  dynamicRoutes.services.forEach(service => {
+  categorySlugs.forEach(slug => {
     sitemap += `
   <url>
-    <loc>${DOMAIN}/services/${service.slug}</loc>
+    <loc>${DOMAIN}/services/${slug}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>${service.priority}</priority>
+    <priority>0.7</priority>
   </url>`;
   });
 
   // Add service details
-  dynamicRoutes.serviceDetails.forEach(service => {
+  serviceSlugs.forEach(slug => {
     sitemap += `
   <url>
-    <loc>${DOMAIN}/services/detail/${service.slug}</loc>
+    <loc>${DOMAIN}/services/detail/${slug}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>${service.priority}</priority>
-  </url>`;
-  });
-
-  // Add blog posts
-  dynamicRoutes.blogPosts.forEach(post => {
-    sitemap += `
-  <url>
-    <loc>${DOMAIN}/blog/${post.slug}</loc>
-    <lastmod>${post.date}</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>${post.priority}</priority>
+    <priority>0.6</priority>
   </url>`;
   });
 
   sitemap += `
 </urlset>`;
 
+  // Ensure public directory exists
+  const publicPath = path.join(__dirname, '../public');
+  if (!fs.existsSync(publicPath)) {
+    fs.mkdirSync(publicPath, { recursive: true });
+  }
+
   // Write sitemap to public folder
-  fs.writeFileSync(path.join(__dirname, '../public/sitemap.xml'), sitemap);
+  fs.writeFileSync(path.join(publicPath, 'sitemap.xml'), sitemap);
   console.log('✅ Sitemap generated successfully!');
 }
 
